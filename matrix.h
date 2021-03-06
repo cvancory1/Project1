@@ -186,27 +186,26 @@ Matrix Matrix::transpose(){
     // make a new matrix switching the rows and cols
     Matrix Atranspose( cols , rows);
 
-    for(int i =0; i< rows; i++){
-        for(int j=0 ; j< cols ;j++){
-            Atranspose.arr[j][i] = arr[i][j];
+    //user to traverse the Atranspose array 
+    int rowPos=0;
+    int colPos=0;
 
+    int rowTpos=0;
+    int colTpos=0;
 
-        }
+    // for(int i =0; i< cols*rows; i++){
+
+    for(int i =0; i< cols; i++){
+        for(int j=0 ; j< rows ;j++){
+             Atranspose.arr[i][j] = arr[j][i];
+
+       }
     }
 
-    
     cout<<"transpose "<<endl;
     Atranspose.print();
+    return Atranspose;
 
-
-    // if(A.rows == A.cols){ // n is a square matrix
-
-
-
-    // }else {// n is not square
-        
-
-    // }
 
 }
 

@@ -17,7 +17,7 @@ com:
 all:
 	git add -u
 	git commit -m "same"
-	git push origin main
+	git push origin master
 	
 stab:
 	git add -u
