@@ -79,6 +79,7 @@ Matrix Matrix ::operator=(const Matrix& copyStack){
 
 }
 
+
 int Matrix::getRowNum(){
     return rows;
 }
@@ -98,6 +99,7 @@ void Matrix::print(){
         cout<<endl;
     }
 }
+
 
 
 Matrix Matrix:: operator+ (const Matrix& rhs ){
@@ -208,6 +210,149 @@ Matrix Matrix::transpose(){
 
 
 }
+
+Matrix Matrix::cofactorExpansion(){
+
+
+
+
+}
+
+
+
+
+bool Matrix::operator==( const Matrix& rhs){
+
+    if(rows != rhs.rows || cols != rhs.cols){
+        return false;
+    }else{
+         
+         for(int i=0; i<rows ; i++){
+            for(int j=0; j<cols ; j++){
+                if( arr[i][j] != rhs.arr[i][j]){
+                    return false;
+                }
+            }   
+        }
+
+        return true;
+
+    }
+
+}
+ bool Matrix:: operator!=( const Matrix& rhs){
+     cout<<"!="<<endl;
+    if(rows != rhs.rows || cols != rhs.cols){
+        cout<<"First"<<endl;
+
+        return true;
+    }else{
+        cout<<"second"<<endl;
+         
+         for(int i=0; i<rows ; i++){
+            for(int j=0; j<cols ; j++){
+                   // cout<<"arr[i][j] != rhs.arr[i][j]="<<arr[i][j] <<" "<<rhs.arr[i][j]<<endl;
+
+                if( arr[i][j] != rhs.arr[i][j]){
+
+                    return true;
+                }
+            }   
+        }
+
+        return false;
+
+    }
+
+}
+
+
+bool Matrix::isInvertible(){
+
+    // using Invertibe matrix theorem 
+    if(rows != cols){
+        return false;
+    }else {
+        // testing for the 2x2 case where det A= ad-bc
+        if(rows == 2){
+             int det= (arr[0][0] * arr[1][1] ) - (arr[0][1] *arr[1][0] );
+             cout<<"det"<<det<<endl;
+             if(det !=0){
+                 return true;
+             }else {
+                 return false;
+             }
+             
+        }
+        // TODO: make case when n is greater than a 2x2
+        // call another function to calculate using kramers rule
+    }
+
+}
+
+
+void Matrix::makeIdentity( Matrix& A){
+
+     for(int i=0 ;i< A.getRowNum() ;i++){
+        A.arr[i][i]=1;
+                
+    }
+
+}
+
+//  recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
+Matrix  Matrix:: inverse(const Matrix& A){
+
+}
+
+
+
+
+// Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
+ Matrix Matrix:: inverse(){
+        Matrix Inverse(2,2); 
+        // makeIdentity(A);
+
+        Matrix AT= this->transpose();
+        // cout<<"here"<<endl;
+        // AT.print();
+
+
+
+        // if(!isInvertible()){ // non-Sing== Determinant. if det != 0 -> invertible
+        //     cout<<"THis is not invertible "<<endl;
+        //     //TODO: throw error and create an else to nest the other statements
+        
+        // }
+
+       if(*this != AT){ 
+            cout<<"A != A transpose"<<endl;
+            
+
+        }
+
+        // if not power of 2
+        if( ceil(log2(rows)) != floor(log2(rows)) ){
+            // 
+            int nextPow = ceil(log2(rows));
+             cout<<"nextPow="<<nextPow<<endl;
+            
+            int k= pow(2,nextPow) - rows;
+            cout<<"k="<<k<<endl;
+
+            Matrix Ideniity (k,k);
+            //Matrix Ideniity (2,2);
+
+            makeIdentity(Ideniity);
+            Ideniity.print();
+
+        }
+
+        
+
+    return Inverse;
+ }
+
 
 
 

@@ -26,7 +26,7 @@ void fillMatrixByHand(Matrix& A);
 void makeDiagnol(Matrix& A);
 void makeUpperTriang(Matrix& A);
 void makeLowerTriang(Matrix& A);
-void makeIdentity(Matrix& A);
+// void makeIdentity(Matrix& A);
 
 
 Matrix timeAdd( Matrix A, Matrix B);
@@ -167,12 +167,55 @@ int main(){
 
 
 
-    Matrix A (2,4);
-    fillMatrix(A);
-    A.print();
-    A.transpose();
+    Matrix A (9,5);
+    A.makeIdentity(A);
+    // fillMatrix(A);
+    // makeUpperTriang(A);
+    //A.print();
+    // A.transpose();
+    // cout<<A.isInvertible()<<endl;
+    A.inverse();
+    
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************/
+
+
 
 
 
@@ -215,14 +258,14 @@ void makeDiagnol(Matrix& A){
 }
 
 
-void makeIdentity(Matrix& A){
+// void makeIdentity(Matrix& A){
 
-     for(int i=0 ;i<A.getRowNum() ;i++){
-        A.arr[i][i]=1;
+//      for(int i=0 ;i<A.getRowNum() ;i++){
+//         A.arr[i][i]=1;
                 
-    }
+//     }
 
-}
+// }
 
 void makeUpperTriang(Matrix& A){
     int partition=0;
