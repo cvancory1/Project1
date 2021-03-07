@@ -52,8 +52,6 @@ class Matrix{
         bool operator==( const Matrix& );
         bool operator!=( const Matrix& );
 
-
-
         //scalar operator 
         Matrix operator*( int scalar);
 
@@ -66,13 +64,6 @@ class Matrix{
 
         Matrix paddedMatrix( Matrix& ,Matrix &);
         Matrix divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols);
-
-
-
-
-
-
-
 
 
 

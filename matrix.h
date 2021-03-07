@@ -293,11 +293,6 @@ bool Matrix::isInvertible(){
 
 void Matrix::makeIdentity( Matrix& A){
 
-    //  for(int i=0 ;i< A.getRowNum() ;i++){
-    //     A.arr[i][i]=1;
-                
-    // }
-
      for(int i =0;i < A.getRowNum() ;i++){
         for(int j =0; j < A.getColNum() ;j++){
 
@@ -353,8 +348,8 @@ Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, 
     // int rowPos= rowStart;
     // int colPos= colStart-1;
 
-    int temp1=0;
-    int temp2=0;
+    int rowPos=0;
+    int colPos=0;
     
     // cout<<"here"<<A.arr[rowPos][colPos]<<endl;
     //A.print();
@@ -365,8 +360,8 @@ Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, 
         for(int j=colStart; j <A.getColNum(); j++){
             //sleep(1);
 
-                if(temp1< numRows && temp2 <numCols){
-                    temp.arr[temp1][temp2++] = A.arr[i][j];
+                if(rowPos< numRows && colPos <numCols){
+                    temp.arr[rowPos][colPos++] = A.arr[i][j];
                     //    cout<<"i="<<i<<" j="<<j<<endl;
                     //     cout<<"temp1="<<temp1<<" temp2="<<temp2<<endl;
                     //     cout<<"num"<<temp.arr[temp1][temp2-1]<<endl;
@@ -374,11 +369,9 @@ Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, 
 
                 }
 
-
-             
         }
-        temp1++;
-        temp2=0;
+        rowPos++;
+        colPos=0;
         
      }
 
@@ -397,7 +390,7 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
         }else{
              double recipricol = 1.0/A.arr[0][0];
             //cout<<"rec="<<recipricol<<endl;
-            A.arr[0][0]= recipricol;
+             A.arr[0][0]= recipricol;
 
         }
        
@@ -419,14 +412,14 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
     int paddedCol=A.getColNum() + I.getColNum();
 
     Matrix newMtx(paddedRow ,paddedCol );
-
+    int rowpos=0;
+    int colpos=0;
 
     //cout<<"paddedRow"<<paddedRow<<"paddedCol"<<paddedCol<<endl;
 
     for(int i =0;i < paddedRow ;i++){
             // to traverse through identity Matrix
-            int rowpos=0;
-            int colpos=0;
+           
 
         for(int j =0; j < paddedCol ;j++){
             //sleep(1);
@@ -434,21 +427,26 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
             // fill the top left quad A
             if(i < A.getRowNum() && j < A.getColNum()){
                 newMtx.arr[i][j]=A.arr[i][j];
-                cout<<"first"<<endl;
+                // cout<<"first"<<endl;
 
             // top right 0
             }else if (i < A.getRowNum() && j >= A.getColNum()){
                 newMtx.arr[i][j]=0;
-                cout<<"second"<<endl;
+                // cout<<"second"<<endl;
             // bottom left
-            }else if(i > A.getRowNum() && j < A.getColNum()){
+            }else if(i >= A.getRowNum() && j < A.getColNum()){
                 newMtx.arr[i][j]=0;
-                cout<<"third"<<endl;
+                // cout<<"third"<<endl;
 
             // bottom right
-            }else if(i > A.getRowNum() && j >= A.getColNum()){
-                newMtx.arr[i][j]=I.arr[rowpos++][colpos++];
-                cout<<"fourth"<<endl;
+            }else if(i >= A.getRowNum() && j >= A.getColNum()){
+                // cout<<"rowPos="<<rowpos<<" colpos="<<colpos<< " num="<<I.arr[rowpos][colpos]<<endl;
+                newMtx.arr[i][j]=I.arr[rowpos][colpos++];
+                if(colpos ==  I.getColNum() ){
+                    // cout<<"enter"<<endl;
+                    colpos=0;
+                    rowpos++;
+                }
 
             }
         }
@@ -468,9 +466,16 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
  Matrix Matrix:: inverse( Matrix & A){
+        int Arows= A.getRowNum();
+        int Acols= A.getColNum();
+
+        
         Matrix Inverse(2,2); 
         // makeIdentity(A);
         Matrix Ideniity (3,3);
+
+        bool usedPadding=false; 
+        bool madeSymetrical=false;
 
 
         Matrix AT= A.transpose();
@@ -483,12 +488,13 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
         
         // }
 
-        // if not symetrical aka AT= A Then multipl to make symmetric 
+        // if not symetric aka AT= A Then multiply to make symmetric 
        if(A != AT){ 
             cout<<"A != A transpose"<<endl;
-            A= AT * A;
+            A= AT * A; // guarentees matrix is not symmetric
             cout<<"here2"<<endl;
             AT.print();
+            madeSymetrical=true;
 
         }
 
@@ -506,14 +512,37 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
             makeIdentity(Ideniity);
             Ideniity.print();
+            usedPadding= true;
 
         }
 
+
+        cout<<"Before Padded matrix"<<endl;
+        // Ideniity.print();
         A=paddedMatrix(A, Ideniity);
-        //A.print();
+        A.print();
 
 
-        //RecurseInverse(A);
+        // Matrix newMtx=RecurseInverse(A);
+        Matrix newMtx=A;
+
+
+
+        //TODO: needs to be double checked 
+        // extract the top left of the matrix 
+        if(usedPadding ==true ){
+            newMtx = divideMatrix( newMtx ,0, 0, Arows ,Acols); // divides based upon previous measurements??
+            cout<<"extract top left"<<endl;
+            newMtx.print();
+        }
+
+        if(madeSymetrical ==true){
+            cout<<"\nRemuultiplied"<<endl;
+            newMtx = newMtx *AT;
+            newMtx.print();
+
+        }
+
     return Inverse;
  }
 

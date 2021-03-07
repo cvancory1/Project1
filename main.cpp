@@ -172,15 +172,17 @@ int main(){
       fillMatrix(A);
     //  A.makeUpperTriang(A);
     A.print();
+
+    A.inverse(A);
     // // A.transpose();
     // // cout<<A.isInvertible()<<endl;
     // A.inverse(A);
 
-   Matrix B(1,1);
-   B= B.divideMatrix(A, 2 ,3 ,3,3 );
+//    Matrix B(1,1);
+//    B= B.divideMatrix(A, 2 ,3 ,3,3 );
 
-    B.print();
-    // A.RecurseInverse(A);
+//     B.print();
+//     // // A.RecurseInverse(A);
     
     
 
