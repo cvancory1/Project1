@@ -167,16 +167,21 @@ int main(){
 
 
 
-    Matrix A (5,5);
-    A.makeIdentity(A);
-     fillMatrix(A);
-     A.makeUpperTriang(A);
-    //A.print();
-    // A.transpose();
-    // cout<<A.isInvertible()<<endl;
-    A.inverse(A);
-    
+    Matrix A (1,1);
+   // A.makeIdentity(A);
+    //  fillMatrix(A);
+    //  A.makeUpperTriang(A);
+    // //A.print();
+    // // A.transpose();
+    // // cout<<A.isInvertible()<<endl;
+    // A.inverse(A);
 
+    fillMatrixByHand(A);
+    A.print();
+
+    A.RecurseInverse(A);
+    
+    
 
 }
 

@@ -348,11 +348,30 @@ void Matrix::makeLowerTriang(Matrix& A){
 
 // //  recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
 Matrix  Matrix:: RecurseInverse( Matrix& A){
+
+    if(A.rows == 1 && A.cols ==1){
+        if(A.arr[0][0]==0){
+            A.arr[0][0]= 0;
+
+        }else{
+             double recipricol = 1.0/A.arr[0][0];
+            //cout<<"rec="<<recipricol<<endl;
+            A.arr[0][0]= recipricol;
+
+        }
+       
+    }else{
+            cout<<"hi="<<endl;
+
+    }
+
+    return A;
     
 
 }
 
-//
+// Inputs: the original matrix (top left) and the identity matrix(bottom right) 
+// adds 0's in top right an bottom left 
 Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
     int paddedRow=A.getRowNum() + I.getRowNum();
@@ -389,8 +408,6 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
             }else if(i > A.getRowNum() && j >= A.getColNum()){
                 newMtx.arr[i][j]=I.arr[rowpos++][colpos++];
                 cout<<"fourth"<<endl;
-                
-
 
             }
         }
@@ -455,7 +472,7 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
         //A.print();
 
 
-        //RecurseInverse()
+        //RecurseInverse(A);
     return Inverse;
  }
 
