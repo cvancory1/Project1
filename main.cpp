@@ -24,8 +24,8 @@ using namespace std;
 void fillMatrix(Matrix& A);
 void fillMatrixByHand(Matrix& A);
 void makeDiagnol(Matrix& A);
-void makeUpperTriang(Matrix& A);
-void makeLowerTriang(Matrix& A);
+// void makeUpperTriang(Matrix& A);
+// void makeLowerTriang(Matrix& A);
 // void makeIdentity(Matrix& A);
 
 
@@ -167,14 +167,14 @@ int main(){
 
 
 
-    Matrix A (9,5);
+    Matrix A (5,5);
     A.makeIdentity(A);
-    // fillMatrix(A);
-    // makeUpperTriang(A);
+     fillMatrix(A);
+     A.makeUpperTriang(A);
     //A.print();
     // A.transpose();
     // cout<<A.isInvertible()<<endl;
-    A.inverse();
+    A.inverse(A);
     
 
 
@@ -266,36 +266,6 @@ void makeDiagnol(Matrix& A){
 //     }
 
 // }
-
-void makeUpperTriang(Matrix& A){
-    int partition=0;
-    for(int i=0 ;i<A.getRowNum() ;i++){
-        int numPrinted=0;
-
-        for(int j=0; j<A.getColNum() ;j++){
-            if(numPrinted > partition){
-                A.arr[i][j]=0;
-            }
-            numPrinted++;
-        }
-        partition++;
-    }
-}
-
-void makeLowerTriang(Matrix& A){
-    int partition=0;
-    for(int i=0 ;i<A.getRowNum() ;i++){
-        int numPrinted=0;
-
-        for(int j=0; j<A.getColNum() ;j++){
-            if(numPrinted < partition){
-                A.arr[i][j]=0;
-            }
-            numPrinted++;
-        }
-        partition++;
-    }
-}
 
 
 Matrix timeAdd( Matrix A, Matrix B){

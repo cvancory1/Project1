@@ -293,31 +293,131 @@ bool Matrix::isInvertible(){
 
 void Matrix::makeIdentity( Matrix& A){
 
-     for(int i=0 ;i< A.getRowNum() ;i++){
-        A.arr[i][i]=1;
+    //  for(int i=0 ;i< A.getRowNum() ;i++){
+    //     A.arr[i][i]=1;
                 
+    // }
+
+     for(int i =0;i < A.getRowNum() ;i++){
+        for(int j =0; j < A.getColNum() ;j++){
+
+            if(i==j){
+                A.arr[i][i]=1;
+                
+            }else{
+                A.arr[i][j]=0;
+
+            }
+        }
+
     }
 
 }
 
-//  recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
-Matrix  Matrix:: inverse(const Matrix& A){
+
+void Matrix::makeUpperTriang(Matrix& A){
+    int partition=0;
+    for(int i=0 ;i<A.getRowNum() ;i++){
+        int numPrinted=0;
+
+        for(int j=0; j<A.getColNum() ;j++){
+            if(numPrinted > partition){
+                A.arr[i][j]=0;
+            }
+            numPrinted++;
+        }
+        partition++;
+    }
+}
+
+void Matrix::makeLowerTriang(Matrix& A){
+    int partition=0;
+    for(int i=0 ;i< A.getRowNum() ;i++){
+        int numPrinted=0;
+
+        for(int j=0; j<A.getColNum() ;j++){
+            if(numPrinted < partition){
+                A.arr[i][j]=0;
+            }
+            numPrinted++;
+        }
+        partition++;
+    }
+}
+
+
+// //  recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
+Matrix  Matrix:: RecurseInverse( Matrix& A){
+    
 
 }
+
+//
+Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
+
+    int paddedRow=A.getRowNum() + I.getRowNum();
+    int paddedCol=A.getColNum() + I.getColNum();
+
+    Matrix newMtx(paddedRow ,paddedCol );
+
+
+    //cout<<"paddedRow"<<paddedRow<<"paddedCol"<<paddedCol<<endl;
+
+    for(int i =0;i < paddedRow ;i++){
+            // to traverse through identity Matrix
+            int rowpos=0;
+            int colpos=0;
+
+        for(int j =0; j < paddedCol ;j++){
+            //sleep(1);
+
+            // fill the top left quad A
+            if(i < A.getRowNum() && j < A.getColNum()){
+                newMtx.arr[i][j]=A.arr[i][j];
+                cout<<"first"<<endl;
+
+            // top right 0
+            }else if (i < A.getRowNum() && j >= A.getColNum()){
+                newMtx.arr[i][j]=0;
+                cout<<"second"<<endl;
+            // bottom left
+            }else if(i > A.getRowNum() && j < A.getColNum()){
+                newMtx.arr[i][j]=0;
+                cout<<"third"<<endl;
+
+            // bottom right
+            }else if(i > A.getRowNum() && j >= A.getColNum()){
+                newMtx.arr[i][j]=I.arr[rowpos++][colpos++];
+                cout<<"fourth"<<endl;
+                
+
+
+            }
+        }
+
+
+    }
+    // cout<<"print"<<endl;
+
+    // newMtx.print();
+    return newMtx;
+
+}
+
 
 
 
 
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
- Matrix Matrix:: inverse(){
+ Matrix Matrix:: inverse( Matrix & A){
         Matrix Inverse(2,2); 
         // makeIdentity(A);
-
-        Matrix AT= this->transpose();
-        // cout<<"here"<<endl;
-        // AT.print();
+        Matrix Ideniity (3,3);
 
 
+        Matrix AT= A.transpose();
+        cout<<"here"<<endl;
+        AT.print();
 
         // if(!isInvertible()){ // non-Sing== Determinant. if det != 0 -> invertible
         //     cout<<"THis is not invertible "<<endl;
@@ -325,9 +425,12 @@ Matrix  Matrix:: inverse(const Matrix& A){
         
         // }
 
-       if(*this != AT){ 
+        // if not symetrical aka AT= A Then multipl to make symmetric 
+       if(A != AT){ 
             cout<<"A != A transpose"<<endl;
-            
+            A= AT * A;
+            cout<<"here2"<<endl;
+            AT.print();
 
         }
 
@@ -339,8 +442,8 @@ Matrix  Matrix:: inverse(const Matrix& A){
             
             int k= pow(2,nextPow) - rows;
             cout<<"k="<<k<<endl;
-
-            Matrix Ideniity (k,k);
+            Matrix temp (k,k);
+            Ideniity=temp;
             //Matrix Ideniity (2,2);
 
             makeIdentity(Ideniity);
@@ -348,8 +451,11 @@ Matrix  Matrix:: inverse(const Matrix& A){
 
         }
 
-        
+        A=paddedMatrix(A, Ideniity);
+        //A.print();
 
+
+        //RecurseInverse()
     return Inverse;
  }
 

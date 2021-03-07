@@ -33,6 +33,10 @@ class Matrix{
         int getColNum();
 
         void makeIdentity( Matrix&);
+        void makeUpperTriang(Matrix& );
+        void makeLowerTriang(Matrix&);
+
+
 
 
 
@@ -53,13 +57,15 @@ class Matrix{
         //scalar operator 
         Matrix operator*( int scalar);
 
-        // isNonSingular();
-        bool isInvertible();
+        bool isInvertible();   //  AKA isNonSingular();
         Matrix cofactorExpansion();
 
         Matrix transpose();
-        Matrix inverse(const Matrix& A);
-        Matrix inverse();
+        Matrix RecurseInverse(Matrix& ); //TODO make private eventually
+        Matrix inverse( Matrix& );
+
+        Matrix paddedMatrix( Matrix& ,Matrix &);
+
 
 
 
