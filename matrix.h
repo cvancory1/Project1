@@ -345,9 +345,50 @@ void Matrix::makeLowerTriang(Matrix& A){
     }
 }
 
+// used for the recursiveInverse 
+Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols){
 
-// //  recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
-Matrix  Matrix:: RecurseInverse( Matrix& A){
+    Matrix temp(numRows , numCols);
+    cout<< "numRows"<<temp.rows<<"cols"<<temp.cols<<endl;
+    // int rowPos= rowStart;
+    // int colPos= colStart-1;
+
+    int temp1=0;
+    int temp2=0;
+    
+    // cout<<"here"<<A.arr[rowPos][colPos]<<endl;
+    //A.print();
+
+    // rowstart and colstart include 0's in indexing
+     for(int i= rowStart ;i < A.getRowNum(); i++){
+         
+        for(int j=colStart; j <A.getColNum(); j++){
+            //sleep(1);
+
+                if(temp1< numRows && temp2 <numCols){
+                    temp.arr[temp1][temp2++] = A.arr[i][j];
+                    //    cout<<"i="<<i<<" j="<<j<<endl;
+                    //     cout<<"temp1="<<temp1<<" temp2="<<temp2<<endl;
+                    //     cout<<"num"<<temp.arr[temp1][temp2-1]<<endl;
+                        //    cout<<"num"<<A.arr[i][j]<<endl;
+
+                }
+
+
+             
+        }
+        temp1++;
+        temp2=0;
+        
+     }
+
+    return temp;
+
+}
+
+
+// recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
+Matrix Matrix:: RecurseInverse( Matrix& A){
 
     if(A.rows == 1 && A.cols ==1){
         if(A.arr[0][0]==0){

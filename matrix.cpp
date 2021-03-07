@@ -58,13 +58,15 @@ class Matrix{
         Matrix operator*( int scalar);
 
         bool isInvertible();   //  AKA isNonSingular();
-        Matrix cofactorExpansion();
+        Matrix cofactorExpansion();// TODO: this one 
 
         Matrix transpose();
         Matrix RecurseInverse(Matrix& ); //TODO make private eventually
         Matrix inverse( Matrix& );
 
         Matrix paddedMatrix( Matrix& ,Matrix &);
+        Matrix divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols);
+
 
 
 

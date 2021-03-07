@@ -167,19 +167,20 @@ int main(){
 
 
 
-    Matrix A (1,1);
+    Matrix A (5,5);
    // A.makeIdentity(A);
-    //  fillMatrix(A);
+      fillMatrix(A);
     //  A.makeUpperTriang(A);
-    // //A.print();
+    A.print();
     // // A.transpose();
     // // cout<<A.isInvertible()<<endl;
     // A.inverse(A);
 
-    fillMatrixByHand(A);
-    A.print();
+   Matrix B(1,1);
+   B= B.divideMatrix(A, 2 ,3 ,3,3 );
 
-    A.RecurseInverse(A);
+    B.print();
+    // A.RecurseInverse(A);
     
     
 
