@@ -171,7 +171,7 @@ int main(){
    // A.makeIdentity(A);
       fillMatrix(A);
     //  A.makeUpperTriang(A);
-    A.print();
+    // A.print();
 
     A.inverse(A);
     // // A.transpose();

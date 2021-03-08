@@ -14,9 +14,8 @@ class Matrix{
         long unsigned rows;
         long unsigned cols;
 
-
         public:
-            int ** arr;
+            double ** arr;
 
 
     public:

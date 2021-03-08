@@ -48,7 +48,7 @@ int main(int argc , char * argv[] ){
         cout<<endl;
         cout<<"The data.txt file is empty.\n"<<endl;  
     }else{
-        string sectorName;
+        string sectorName,lines;
         int fd;
         char buff[1];
         int numBytes;
@@ -86,8 +86,8 @@ int main(int argc , char * argv[] ){
 
         }
         // cout<<"here"<<endl;
-        infile>>sectorName;
-        cout<<sectorName<<endl;
+        infile>>lines;
+        cout<<lines<<endl;
 
         for(int i=0 ;i < numSectors ;i++){
             cout<<sectors[i]<<" sectors"<<endl;
@@ -111,6 +111,16 @@ int main(int argc , char * argv[] ){
         iomodel.print();
 
 
+        Matrix demand (numSectors,1);
+        infile>>lines;
+        cout<<lines<<endl;
+
+        for(int i=0 ;i < numSectors ;i++){
+            int num;
+            infile>>num;
+            demand.arr[i][0]=num;
+            cout<<demand.arr[i][0]<<"dependencies"<<endl;
+        }
 
 
     }
@@ -118,12 +128,16 @@ int main(int argc , char * argv[] ){
 
     infile.close();
 
+    // cout<<"Amount of each product needed:"<<endl;
+
+
+
     /*
         TODO: main
         read in the file
-        - strings
-        - matrix
-        - vector/matrix
+        // - strings
+        // - matrix
+        // - vector/matrix
 
         calculate the inverse 
         - call the algorithm
@@ -136,8 +150,12 @@ int main(int argc , char * argv[] ){
 
     */
 
+    // TODO: questions:
 
-    // cout<<"Amount of each product needed:"<<endl;
+    // If we do the isSingular question. Does that mean that the iomodel program will be given a nxm matrix?
+    //  No, hopefully if so how would htat be possible ??
+
+
 
     return 0;
 }

@@ -8,11 +8,11 @@ Matrix::Matrix(int rowNum,int colNum){
         rows=rowNum;
         cols=colNum;
     } 
-    arr = new int * [rows];
+    arr = new double * [rows];
     // cout<<"arr"<< arr<<endl;
 
     for(int i=0; i<rows ; i++){
-        arr[i] = new int [cols];
+        arr[i] = new double [cols];
 
     }
 }
@@ -30,9 +30,9 @@ Matrix::Matrix(const Matrix & other){
     rows= other.rows;
 
     //have to create the new matrix using the "others" info 
-    arr = new int * [rows];
+    arr = new double * [rows];
     for(int i=0; i<rows ; i++){
-        arr[i] = new int [cols];
+        arr[i] = new double [cols];
 
     }
 
@@ -62,9 +62,9 @@ Matrix Matrix ::operator=(const Matrix& copyStack){
         rows= copyStack.rows;
 
         // creates an array of "copystack" size
-        arr = new int * [rows];
+        arr = new double * [rows];
         for(int i=0; i<rows ; i++){
-            arr[i] = new int [cols];
+            arr[i] = new double [cols];
         }
 
         // copies the data over
@@ -93,7 +93,7 @@ void Matrix::print(){
     for(int i=0;i < rows ;i++){
         for(int j=0 ;j< cols ;j++){
             // cout<< arr[i][j];
-          printf("%d ", arr[i][j]);
+          printf("%f ", arr[i][j]);
 
         }
         cout<<endl;
@@ -379,30 +379,6 @@ Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, 
 }
 
 
-// recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
-Matrix Matrix:: RecurseInverse( Matrix& A){
-
-    if(A.rows == 1 && A.cols ==1){
-        if(A.arr[0][0]==0){
-            A.arr[0][0]= 0;
-
-        }else{
-             double recipricol = 1.0/A.arr[0][0];
-            //cout<<"rec="<<recipricol<<endl;
-             A.arr[0][0]= recipricol;
-
-        }
-       
-    }else{
-            cout<<"hi="<<endl;
-
-    }
-
-    return A;
-    
-
-}
-
 // Inputs: the original matrix (top left) and the identity matrix(bottom right) 
 // adds 0's in top right an bottom left 
 Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
@@ -455,6 +431,64 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
 
 
+// recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
+Matrix Matrix:: RecurseInverse( Matrix& A){
+    sleep(1);
+    // base case 
+    if(A.rows == 1 && A.cols ==1){
+        double recipricol = 1.0/A.arr[0][0];
+        A.arr[0][0]= recipricol;
+        //cout<<"rec="<<recipricol<<endl;
+        return A;
+
+    }
+
+    //1. divide A and B into sub matricies (top left bottom right) of size n/2
+    Matrix B = divideMatrix(A, 0,0 ,A.rows/2 ,A.rows/2 );
+    Matrix D = divideMatrix(A, A.rows/2, A.rows/2 ,A.rows/2 ,A.rows/2 );
+
+    //my checks
+    cout<<"PRINTING B"<<endl;
+    B.print();
+    cout<<"\nPRINTING d"<<endl;
+    D.print();
+
+    //2. recursively compute B inverse
+    B = B.RecurseInverse(B);
+
+    
+
+  
+
+
+
+
+
+
+
+    // if(A.rows == 1 && A.cols ==1){
+    //     if(A.arr[0][0]==0){
+    //         A.arr[0][0]= 0;
+
+    //     }else{
+    //          double recipricol = 1.0/A.arr[0][0];
+    //         //cout<<"rec="<<recipricol<<endl;
+    //          A.arr[0][0]= recipricol;
+
+    //     }
+       
+    // }else{
+        
+            
+
+    // }
+
+    return A;
+    
+
+}
+
+
 
 
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
@@ -484,10 +518,10 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
         // if not symetric aka AT= A Then multiply to make symmetric 
        if(A != AT){ 
-            cout<<"A != A transpose"<<endl;
+            // cout<<"A != A transpose"<<endl;
             A= AT * A; // guarentees matrix is not symmetric
-            cout<<"here2"<<endl;
-            AT.print();
+            // cout<<"here2"<<endl;
+            // AT.print();
             madeSymetrical=true;
 
         }
@@ -496,45 +530,49 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
         if( ceil(log2(rows)) != floor(log2(rows)) ){
             // 
             int nextPow = ceil(log2(rows));
-             cout<<"nextPow="<<nextPow<<endl;
+            //  cout<<"nextPow="<<nextPow<<endl;
             
             int k= pow(2,nextPow) - rows;
-            cout<<"k="<<k<<endl;
+            // cout<<"k="<<k<<endl;
             Matrix temp (k,k);
             Ideniity=temp;
             //Matrix Ideniity (2,2);
+        cout<<"         here"<<endl;
 
             makeIdentity(Ideniity);
             Ideniity.print();
             usedPadding= true;
+            //  Ideniity.print();
+            A=paddedMatrix(A, Ideniity);
+            cout<<"after Padded matrix"<<endl;
+
 
         }
 
 
-        cout<<"Before Padded matrix"<<endl;
-        // Ideniity.print();
-        A=paddedMatrix(A, Ideniity);
-        A.print();
+        // cout<<"Before Padded matrix"<<endl;
+       
+
+            A.print();
+
+         Matrix newMtx=RecurseInverse(A);
+        // Matrix newMtx=A;
 
 
-        // Matrix newMtx=RecurseInverse(A);
-        Matrix newMtx=A;
 
+        // // extract the top left of the matrix 
+        // if(usedPadding ==true ){
+        //     newMtx = divideMatrix( newMtx ,0, 0, Arows ,Acols); // divides based upon previous measurements??
+        //     cout<<"extract top left"<<endl;
+        //     newMtx.print();
+        // }
 
+        // if(madeSymetrical ==true){
+        //     cout<<"\nRemuultiplied"<<endl;
+        //     newMtx = newMtx *AT;
+        //     newMtx.print();
 
-        // extract the top left of the matrix 
-        if(usedPadding ==true ){
-            newMtx = divideMatrix( newMtx ,0, 0, Arows ,Acols); // divides based upon previous measurements??
-            cout<<"extract top left"<<endl;
-            newMtx.print();
-        }
-
-        if(madeSymetrical ==true){
-            cout<<"\nRemuultiplied"<<endl;
-            newMtx = newMtx *AT;
-            newMtx.print();
-
-        }
+        // }
 
     return Inverse;
  }
