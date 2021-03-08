@@ -172,7 +172,7 @@ Matrix Matrix::operator*( const Matrix& rhs){
 
 
 
-
+// scalar multiplication
 Matrix Matrix::operator*( int scalar){
     for(int i=0;i < rows ;i++){
         for(int j=0;j < cols ;j++){
@@ -200,12 +200,11 @@ Matrix Matrix::transpose(){
     for(int i =0; i< cols; i++){
         for(int j=0 ; j< rows ;j++){
              Atranspose.arr[i][j] = arr[j][i];
-
        }
     }
 
-    cout<<"transpose "<<endl;
-    Atranspose.print();
+    // cout<<"transpose "<<endl;
+    // Atranspose.print();
     return Atranspose;
 
 
@@ -220,7 +219,7 @@ Matrix Matrix::cofactorExpansion(){
 
 
 
-
+// checks if two matricies are exactly the same
 bool Matrix::operator==( const Matrix& rhs){
 
     if(rows != rhs.rows || cols != rhs.cols){
@@ -269,7 +268,7 @@ bool Matrix::operator==( const Matrix& rhs){
 
 bool Matrix::isInvertible(){
 
-    // using Invertibe matrix theorem 
+    // by Invertibe matrix theorem 
     if(rows != cols){
         return false;
     }else {
@@ -339,7 +338,7 @@ void Matrix::makeLowerTriang(Matrix& A){
         partition++;
     }
 }
-
+// given any matrix A makes a smaller matrix that is a subset of A which gets returned
 // used for the recursiveInverse 
 Matrix Matrix::divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols){
 
@@ -407,25 +406,23 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
 // Inputs: the original matrix (top left) and the identity matrix(bottom right) 
 // adds 0's in top right an bottom left 
 Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
-
+    
     int paddedRow=A.getRowNum() + I.getRowNum();
     int paddedCol=A.getColNum() + I.getColNum();
 
+    // makes a new matrix of size A and I 
     Matrix newMtx(paddedRow ,paddedCol );
+
+    // keeps track of indexs for the Idenitity matrix
     int rowpos=0;
     int colpos=0;
 
     //cout<<"paddedRow"<<paddedRow<<"paddedCol"<<paddedCol<<endl;
 
     for(int i =0;i < paddedRow ;i++){
-            // to traverse through identity Matrix
-           
-
         for(int j =0; j < paddedCol ;j++){
-            //sleep(1);
-
             // fill the top left quad A
-            if(i < A.getRowNum() && j < A.getColNum()){
+            if(i < A.getRowNum() && j < A.getColNum()){ 
                 newMtx.arr[i][j]=A.arr[i][j];
                 // cout<<"first"<<endl;
 
@@ -447,14 +444,10 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
                     colpos=0;
                     rowpos++;
                 }
-
             }
         }
-
-
     }
     // cout<<"print"<<endl;
-
     // newMtx.print();
     return newMtx;
 
@@ -466,6 +459,7 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
  Matrix Matrix:: inverse( Matrix & A){
+        // stores the original dimensions of "A" b/c "A" will get reassigned later 
         int Arows= A.getRowNum();
         int Acols= A.getColNum();
 
@@ -479,8 +473,8 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
 
         Matrix AT= A.transpose();
-        cout<<"here"<<endl;
-        AT.print();
+        // cout<<"here"<<endl;
+        // AT.print();
 
         // if(!isInvertible()){ // non-Sing== Determinant. if det != 0 -> invertible
         //     cout<<"THis is not invertible "<<endl;
@@ -528,7 +522,6 @@ Matrix Matrix::paddedMatrix( Matrix& A , Matrix & I){
 
 
 
-        //TODO: needs to be double checked 
         // extract the top left of the matrix 
         if(usedPadding ==true ){
             newMtx = divideMatrix( newMtx ,0, 0, Arows ,Acols); // divides based upon previous measurements??

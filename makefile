@@ -7,6 +7,13 @@ program: main.o
 main.o: main.cpp matrix.cpp matrix.h
 	g++ -g -std=c++11 -c main.cpp
 
+model: iomodel.o
+	g++ -g -std=c++11 iomodel.o -o iomodel
+
+iomodel.o: iomodel.cpp matrix.cpp matrix.h
+	g++ -g -std=c++11 -c iomodel.cpp
+
+
 clean:
 	rm -f *.o
 	rm -f main
