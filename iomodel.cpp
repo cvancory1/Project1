@@ -30,20 +30,25 @@ using namespace std;
 
 // TODO: follow procedure to input the information from the file and store in an array??? 
 
-int main(){
-    string sectorName;
-    string temp;
+int main(int argc , char * argv[] ){
+
+
+    if(argc !=2){
+        // TODO: throw error
+        cout<<"Must pass in 2 args."<<endl;
+        return 1;
+    }
 
     ifstream infile;
-    infile.open("data");
+    infile.open(argv[1]);
    
     if(!infile){
-        cout << "Cannot find the file." << endl; 
+        cout << "Cannot find the file.\n" << endl; 
     } else if(infile.peek() == EOF){
         cout<<endl;
-        cout<<"The data.txt file is empty."<<endl;  
+        cout<<"The data.txt file is empty.\n"<<endl;  
     }else{
-
+        string sectorName;
         int fd;
         char buff[1];
         int numBytes;
@@ -52,7 +57,7 @@ int main(){
         char temp = '-';
         int dash = (int)temp;
 
-        fd= open("data", O_RDONLY);
+        fd= open( argv[1], O_RDONLY);
         if(fd!= -1){
 
 
@@ -80,12 +85,12 @@ int main(){
             sectors[i]= sectorName;
 
         }
-        cout<<"here"<<endl;
+        // cout<<"here"<<endl;
         infile>>sectorName;
         cout<<sectorName<<endl;
 
         for(int i=0 ;i < numSectors ;i++){
-            cout<<sectors[i]<<endl;
+            cout<<sectors[i]<<" sectors"<<endl;
         }
 
         Matrix iomodel(numSectors,numSectors);
@@ -96,13 +101,13 @@ int main(){
                 //  cout<<"num="<<num<<endl;
 
                  iomodel.arr[i][j]= num;
-                 cout<<"iomodel.arr[i][j]="<<iomodel.arr[i][j]<<endl;
+                //  cout<<"iomodel.arr[i][j]="<<iomodel.arr[i][j]<<endl;
 
                  
          
             }
         }
-        cout<<"Printing matrix"<<endl;
+        cout<<"\nPrinting matrix"<<endl;
         iomodel.print();
 
 
@@ -134,4 +139,5 @@ int main(){
 
     // cout<<"Amount of each product needed:"<<endl;
 
+    return 0;
 }
