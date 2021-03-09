@@ -130,9 +130,15 @@ int main(int argc , char * argv[] ){
     infile.close();
 
     Matrix ans = iomodel; // just to make sure the apporopriate size look over TODO:
-    ans= iomodel.inverse(iomodel);
-    cout<<ans.getRowNum() <<" "<<ans.getColNum()<<endl;
+    Matrix I=iomodel;
+    I.makeIdentity(I);// identity
+
+    ans= (iomodel - ans).inverse();
     ans= ans * demand;
+    
+
+    cout<<ans.getRowNum() <<" "<<ans.getColNum()<<endl;
+
 
     
    

@@ -508,7 +508,8 @@ Matrix Matrix::assembleMatrix( Matrix& R ,Matrix & T ,Matrix & U ,Matrix & V){
 
 
 // recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
-Matrix Matrix:: RecurseInverse( Matrix& A){
+Matrix Matrix:: RecurseInverse(){
+    Matrix A= *this;
     cout<<"     ENTER RECURSIVE \n origina A matrix that comes in "<<endl;
     A.print();
     sleep(1);
@@ -541,7 +542,7 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
 
 
     //2. recursively compute B inverse
-    B = B.RecurseInverse(B);
+    B = B.RecurseInverse();
 
     //3.Compute  wT=CB^-1 and  wT =B^-1CT
     Matrix W( A.rows , sizeOvertwo);
@@ -564,7 +565,7 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
 
     //6. recursively compute V=S^-1 inverse
     Matrix V= S;
-    V= S.RecurseInverse(S);
+    V= S.RecurseInverse();
 
 
     //7. Compute Y =S^-1 W and yT - Moved the yT to after 8. b/c U= -Y 
@@ -595,9 +596,6 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
 
 
 
-
-    
-
     A = assembleMatrix(R,T,U,V);
 
 
@@ -610,13 +608,15 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
 
 
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
- Matrix Matrix:: inverse( Matrix & A){
+ Matrix Matrix:: inverse(){
+        Matrix A=*this; //makes a copy of this 
+
         // stores the original dimensions of "A" b/c "A" will get reassigned later 
         int Arows= A.getRowNum();
         int Acols= A.getColNum();
 
         
-        // Matrix Inverse(2,2); 
+        //  Matrix Inverse(2,2); 
         // makeIdentity(A);
         Matrix Ideniity (3,3);
 
@@ -688,7 +688,7 @@ Matrix Matrix:: RecurseInverse( Matrix& A){
        
 
 
-        Matrix newMtx=RecurseInverse(A);
+        Matrix newMtx=RecurseInverse();
         // Matrix newMtx=A;
 
 

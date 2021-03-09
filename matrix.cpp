@@ -58,8 +58,8 @@ class Matrix{
         Matrix cofactorExpansion();// TODO: this one 
 
         Matrix transpose();
-        Matrix RecurseInverse(Matrix& ); //TODO make private eventually
-        Matrix inverse( Matrix& );
+        Matrix RecurseInverse( ); //TODO make private eventually
+        Matrix inverse( );
 
         Matrix paddedMatrix( Matrix& ,Matrix &);
         Matrix assembleMatrix( Matrix& ,Matrix & ,Matrix &,Matrix &);

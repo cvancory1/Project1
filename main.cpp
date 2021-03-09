@@ -187,10 +187,10 @@ int main(){
 //     A.inverse(A);
     
     
-   Matrix A(2,2);
+   Matrix A(3,3);
 
 //    int arr[]= {4,7,2,6};
-   int arr[]= {1,0,0,1};
+   int arr[]= {2,3,1,-1,5,9,2,2,2};
 
     int pos=0;
    for(int i =0;i< A.getRowNum() ;i++){
@@ -200,16 +200,20 @@ int main(){
 
    }
 
-   A.inverse(A);
+   Matrix B= A.inverse();
    cout<<"          FIN MAIN"<<endl;
-   A.print();
+   B.print();
 
+   cout<<"          Inverse check"<<endl;
+
+    (B*A).print();
 }
 
 
 
-
-
+// [[-0.25   , -0.125  ,  0.6875 ],
+//  [ 0.625  ,  0.0625 , -0.59375],
+//  [-0.375  ,  0.0625 ,  0.40625]]
 
 
 
