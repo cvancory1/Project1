@@ -597,6 +597,9 @@ Matrix Matrix:: RecurseInverse(){
 
 
     A = assembleMatrix(R,T,U,V);
+    cout<<"PRINTIING ASSEMBLED MATRIX "<<endl;
+    A.print();
+    
 
 
     return A;
