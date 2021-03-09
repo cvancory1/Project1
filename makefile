@@ -24,7 +24,7 @@ com:
 
 all:
 	git add -u
-	git commit -m "same"
+	git commit -m "test"
 	git push origin master
 	
 stable:
