@@ -618,11 +618,6 @@ Matrix Matrix:: RecurseInverse(){
         int Arows= A.getRowNum();
         int Acols= A.getColNum();
 
-        
-        //  Matrix Inverse(2,2); 
-        // makeIdentity(A);
-        Matrix Ideniity (3,3);
-
         bool usedPadding=false; 
         bool madeSymetrical=false;
 
@@ -651,36 +646,34 @@ Matrix Matrix:: RecurseInverse(){
             // A.print();
             madeSymetrical=true;
 
-            
-
         }
+
+
+        Matrix Ideniity (3,3);
 
             cout<<"POWER OF 2 CHeCK"<<endl;
         // if not power of 2
         if( ceil(log2(rows)) != floor(log2(rows)) ){
+            usedPadding= true;
             cout<<"         Before Padded matrix"<<endl;
             A.print();
 
 
-            cout<<"rows"<<rows<<endl;
+            // cout<<"rows"<<rows<<endl;
             int nextPow = ceil(log2(rows));
-            cout<<"ceil="<<log2(rows)<<endl;
-            cout<<"nextPow="<<nextPow<<endl;
+            // cout<<"ceil="<<log2(rows)<<endl;
+            // cout<<"nextPow="<<nextPow<<endl;
 
             int k= pow(2,nextPow) - rows;
-            cout<<"k="<<k<<endl;
+            // cout<<"k="<<k<<endl;
             Matrix temp (k,k);
             Ideniity=temp;
-            cout<<"         here"<<endl;
 
             makeIdentity(Ideniity);
-            //Ideniity.print();
-            usedPadding= true;
             //  Ideniity.print();
 
 
-
-            A=paddedMatrix(A, Ideniity);
+            A = paddedMatrix(A, Ideniity);
             cout<<"    after Padded matrix"<<endl;
 
             A.print();
@@ -688,13 +681,8 @@ Matrix Matrix:: RecurseInverse(){
         }
 
 
-       
 
-
-        Matrix newMtx=RecurseInverse();
-        // Matrix newMtx=A;
-
-
+        Matrix newMtx= A.RecurseInverse();
 
         // extract the top left of the matrix 
         if(usedPadding ==true ){
