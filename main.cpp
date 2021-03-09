@@ -167,24 +167,42 @@ int main(){
 
 
 
-    Matrix A (5,5);
-   // A.makeIdentity(A);
-      fillMatrix(A);
-    //  A.makeUpperTriang(A);
-    // A.print();
+//     Matrix A (3,3);
+// //    A.makeIdentity(A);
+//     fillMatrix(A);
+   
 
-    A.inverse(A);
-    // // A.transpose();
-    // // cout<<A.isInvertible()<<endl;
-    // A.inverse(A);
+//     //  A.makeUpperTriang(A);
+//     // A.print();
 
-//    Matrix B(1,1);
-//    B= B.divideMatrix(A, 2 ,3 ,3,3 );
+//    // A.inverse(A);
+//     // // A.transpose();
+//     // // cout<<A.isInvertible()<<endl;
+//     // A.inverse(A);
 
-//     B.print();
-//     // // A.RecurseInverse(A);
+// //    Matrix B(1,1);
+// //    B= B.divideMatrix(A, 2 ,3 ,3,3 );
+
+// //     B.print();
+//     A.inverse(A);
     
     
+   Matrix A(2,2);
+
+//    int arr[]= {4,7,2,6};
+   int arr[]= {1,0,0,1};
+
+    int pos=0;
+   for(int i =0;i< A.getRowNum() ;i++){
+     for(int j =0; j< A.getRowNum() ;j++){
+         A.arr[i][j] = arr[pos++];
+     }
+
+   }
+
+   A.inverse(A);
+   cout<<"          FIN MAIN"<<endl;
+   A.print();
 
 }
 

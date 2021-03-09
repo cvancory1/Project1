@@ -62,6 +62,7 @@ class Matrix{
         Matrix inverse( Matrix& );
 
         Matrix paddedMatrix( Matrix& ,Matrix &);
+        Matrix assembleMatrix( Matrix& ,Matrix & ,Matrix &,Matrix &);
         Matrix divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols);
 
 
