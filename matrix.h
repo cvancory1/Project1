@@ -210,12 +210,12 @@ Matrix Matrix::transpose(){
 
 }
 
-Matrix Matrix::cofactorExpansion(){
+// Matrix Matrix::cofactorExpansion(){
 
 
 
 
-}
+// }
 
 
 
@@ -266,28 +266,28 @@ bool Matrix::operator==( const Matrix& rhs){
 }
 
 
-bool Matrix::isInvertible(){
+// bool Matrix::isInvertible(){
 
-    // by Invertibe matrix theorem 
-    if(rows != cols){
-        return false;
-    }else {
-        // testing for the 2x2 case where det A= ad-bc
-        if(rows == 2){
-             int det= (arr[0][0] * arr[1][1] ) - (arr[0][1] *arr[1][0] );
-             cout<<"det"<<det<<endl;
-             if(det !=0){
-                 return true;
-             }else {
-                 return false;
-             }
+//     // by Invertibe matrix theorem 
+//     if(rows != cols){
+//         return false;
+//     }else {
+//         // testing for the 2x2 case where det A= ad-bc
+//         if(rows == 2){
+//              int det= (arr[0][0] * arr[1][1] ) - (arr[0][1] *arr[1][0] );
+//              cout<<"det"<<det<<endl;
+//              if(det !=0){
+//                  return true;
+//              }else {
+//                  return false;
+//              }
              
-        }
-        // TODO: make case when n is greater than a 2x2
-        // call another function to calculate using kramers rule
-    }
+//         }
+//         // TODO: make case when n is greater than a 2x2
+//         // call another function to calculate using kramers rule
+//     }
 
-}
+// }
 
 
 void Matrix::makeIdentity( Matrix& A){
@@ -476,7 +476,7 @@ Matrix Matrix::assembleMatrix( Matrix& R ,Matrix & T ,Matrix & U ,Matrix & V){
             // bottom left
             }else if(i >= R.getRowNum() && j < R.getColNum()){
                 newMtx.arr[i][j]= U.arr[Urowpos][Ucolpos];
-                cout<<"third"<<endl;
+                cout<<"third"<< U.arr[Urowpos][Ucolpos++]<<endl;
                 if(Ucolpos ==  U.getColNum() ){
                     cout<<"enter"<<endl;
                     Ucolpos=0;
@@ -574,9 +574,7 @@ Matrix Matrix:: RecurseInverse(){
 
     //8. SetT= −yT and U=−Y.
     Matrix T = yT*-1;
-   // Y= Y.transpose();
     Matrix U= Y*-1;
-    // T=T.RecurseInverse(T);
 
     //9. ComputeZ=wT*Y and set R=B^-1+Z.
 

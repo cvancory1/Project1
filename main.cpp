@@ -188,25 +188,39 @@ int main(){
     
     
    Matrix A(3,3);
+   fillMatrix(A);
+
+    Matrix B=A;
+    Matrix C=A;
+
+    C.print();
+    Matrix D=A;
+
+    A.assembleMatrix(A,B,C,D);
+
 
 //    int arr[]= {4,7,2,6};
-   int arr[]= {2,3,1,-1,5,9,2,2,2};
+//    int arr[]= {2,3,1,-1,5,9,2,2,2};
 
-    int pos=0;
-   for(int i =0;i< A.getRowNum() ;i++){
-     for(int j =0; j< A.getRowNum() ;j++){
-         A.arr[i][j] = arr[pos++];
-     }
+//     int pos=0;
+//    for(int i =0;i< A.getRowNum() ;i++){
+//      for(int j =0; j< A.getRowNum() ;j++){
+//          A.arr[i][j] = arr[pos++];
+//      }
 
-   }
+//    }
 
-   Matrix B= A.inverse();
-   cout<<"          FIN MAIN"<<endl;
-   B.print();
+//    Matrix B= A.inverse();
+//    cout<<"          FIN MAIN"<<endl;
+//    B.print();
 
-   cout<<"          Inverse check"<<endl;
+//    cout<<"          Inverse check"<<endl;
 
-    (B*A).print();
+//     (B*A).print();
+
+
+
+
 }
 
 

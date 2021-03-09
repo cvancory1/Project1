@@ -27,15 +27,10 @@ all:
 	git commit -m "same"
 	git push origin master
 	
-stab:
+stable:
 	git add -u
 	git commit -m "Stable copy"
 	git push origin main
-
-pull:
-	git pull
-	make
-	./main
 
 val:
 	make
