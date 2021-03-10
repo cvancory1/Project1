@@ -133,7 +133,7 @@ int main(int argc , char * argv[] ){
     Matrix I=iomodel;
     I.makeIdentity(I);// identity
 
-    ans= (iomodel - ans).inverse();
+    ans= (iomodel - ans).inverse() ;
     ans= ans * demand;
     
 

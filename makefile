@@ -23,10 +23,10 @@ com:
 	git push origin master
 
 all:
-	git add -u
+	git add -u 
 	git commit -m "test"
 	git push origin master
-	
+
 stable:
 	git add -u
 	git commit -m "Stable copy"

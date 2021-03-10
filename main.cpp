@@ -203,6 +203,7 @@ int main(){
 //    int arr[]= {4,7,2,6};
    int arr[]= {2,3,1,-1,5,9,2,2,2};
 
+
     int pos=0;
    for(int i =0;i< A.getRowNum() ;i++){
      for(int j =0; j< A.getRowNum() ;j++){
@@ -210,14 +211,17 @@ int main(){
      }
 
    }
+   cout<<"          before inverse"<<endl;
+
+    A.print();
 
    Matrix B= A.inverse();
-   cout<<"          FIN MAIN"<<endl;
-   B.print();
+//    cout<<"          FIN MAIN"<<endl;
+//    B.print();
 
-   cout<<"          Inverse check"<<endl;
+//    cout<<"          Inverse check"<<endl;
 
-    (B*A).print();
+//     (B*A).print();
 
 
 
