@@ -496,8 +496,8 @@ Matrix Matrix::assembleMatrix( Matrix& R ,Matrix & T ,Matrix & U ,Matrix & V){
             }
         }
     }
-     cout<<"print assembled matrix"<<endl;
-     newMtx.print();
+    //  cout<<"print assembled matrix"<<endl;
+    //  newMtx.print();
     return newMtx;
 
 
@@ -516,9 +516,17 @@ Matrix Matrix:: RecurseInverse(){
     // base case 
     if(A.rows == 1 && A.cols ==1){
         cout<<"\n\nEntering the base case"<<endl;
-        double recipricol = 1.0/A.arr[0][0];
-        A.arr[0][0]= recipricol;
+
+        if(arr[0][0] != 0){
+            double recipricol = 1.0/A.arr[0][0];
+            A.arr[0][0]= recipricol;
         cout<<"rec="<<recipricol<<endl;
+
+        }else{
+            A.arr[0][0]= 0;
+
+        }
+       
         A.print();
         return A;
 
@@ -577,16 +585,18 @@ Matrix Matrix:: RecurseInverse(){
     Matrix V= S;
     cout<<"V PRINT"<<endl;
     V= S.RecurseInverse();
+    V.print();
 
 
     //7. Compute Y =S^-1 W and yT - Moved the yT to after 8. b/c U= -Y 
     cout<<"y and yT PRINT"<<endl;
 
-    Matrix Y = S*W;
+    Matrix Y = V*W;
     Matrix yT= Y.transpose();
     Y.print();
-    cout<<endl;
     yT.print();
+    cout<<endl;
+
 
     cout<<"t and U PRINT"<<endl;
     //8. SetT= −yT and U=−Y.
@@ -600,19 +610,21 @@ Matrix Matrix:: RecurseInverse(){
     //9. ComputeZ=wT*Y and set R=B^-1+Z.
 
     Matrix Z = wT *Y;
+    cout<<" \nZ"<<endl;
+    Z.print();
     Matrix R= B +Z;
 
 
 
-    cout<<" R"<<endl;
+    cout<<"\n R"<<endl;
     R.print();
-    cout<<" T"<<endl;
+    cout<<" \nT"<<endl;
     T.print();
 
-    cout<<" U"<<endl;
+    cout<<" \nU"<<endl;
     U.print();
 
-    cout<<" V"<<endl;
+    cout<<"\n V"<<endl;
     V.print();
 
     A = assembleMatrix(R,T,U,V);
@@ -661,15 +673,15 @@ Matrix Matrix:: RecurseInverse(){
             AT.print();
 
             A= AT * A; // guarentees matrix is not symmetric
-            // cout<<"printing A*AT transpose"<<endl;
-            // A.print();
+            cout<<"printing AT*A transpose"<<endl;
+            A.print();
 
         }
 
 
         Matrix Ideniity (3,3);
-
             cout<<"POWER OF 2 CHeCK"<<endl;
+
         // if not power of 2
         if( ceil(log2(rows)) != floor(log2(rows)) ){
             usedPadding= true;
@@ -712,7 +724,7 @@ Matrix Matrix:: RecurseInverse(){
         }
 
         if(madeSymetrical ==true){
-            cout<<"\nRemuultiplied"<<endl;
+            cout<<"\nRemuultiplied matrix FIN ANS"<<endl;
             newMtx = newMtx *AT;
             newMtx.print();
 

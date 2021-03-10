@@ -187,8 +187,9 @@ int main(){
 //     A.inverse(A);
     
     
-   Matrix A(3,3);
-   fillMatrix(A);
+   Matrix A(4,4);
+//    fillMatrix(A);
+//    A.makeIdentity(A);
 
 
     // Matrix B=A;
@@ -201,10 +202,16 @@ int main(){
 
 
 //    int arr[]= {4,7,2,6};
-   int arr[]= {2,3,1,-1,5,9,2,2,2};
+//    int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
+//    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
+   int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
 
 
-    int pos=0;
+
+
+
+
+   int pos=0;
    for(int i =0;i< A.getRowNum() ;i++){
      for(int j =0; j< A.getRowNum() ;j++){
          A.arr[i][j] = arr[pos++];
@@ -219,12 +226,14 @@ int main(){
 //    cout<<"          FIN MAIN"<<endl;
 //    B.print();
 
-//    cout<<"          Inverse check"<<endl;
+   cout<<"          Inverse check"<<endl;
 
-//     (B*A).print();
+    (B*A).print();
 
 
-
+    // Matrix h(1,1);
+    // h.arr[0][0]=.4;
+    // cout<<h.arr[0][0]*-1<<endl;
 
 }
 
