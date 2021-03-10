@@ -174,12 +174,13 @@ Matrix Matrix::operator*( const Matrix& rhs){
 
 // scalar multiplication
 Matrix Matrix::operator*( int scalar){
+    Matrix B = *this;
     for(int i=0;i < rows ;i++){
         for(int j=0;j < cols ;j++){
-            arr[i][j]*= scalar;
+            B.arr[i][j]*= scalar;
         }
     }
-    return *this;
+    return B;
 }
 
 
@@ -609,6 +610,7 @@ Matrix Matrix:: RecurseInverse(){
 
     //9. ComputeZ=wT*Y and set R=B^-1+Z.
 
+
     Matrix Z = wT *Y;
     cout<<" \nZ"<<endl;
     Z.print();
@@ -730,6 +732,8 @@ Matrix Matrix:: RecurseInverse(){
 
         }
         
+
+        // return (A.transpose()*A).inverse() * A.transpose();
     return newMtx;
  }
 

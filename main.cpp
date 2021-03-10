@@ -187,7 +187,6 @@ int main(){
 //     A.inverse(A);
     
     
-   Matrix A(4,4);
 //    fillMatrix(A);
 //    A.makeIdentity(A);
 
@@ -200,11 +199,11 @@ int main(){
 
     // A.assembleMatrix(A,B,C,D);
 
-
-//    int arr[]= {4,7,2,6};
+   Matrix A(2,2);
+   int arr[]= {4,7,2,6};
 //    int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
 //    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
-   int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
+//    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
 
 
 
