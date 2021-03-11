@@ -131,9 +131,13 @@ int main(int argc , char * argv[] ){
 
     Matrix ans = iomodel; // just to make sure the apporopriate size look over TODO:
     Matrix I=iomodel;
-    I.makeIdentity(I);// identity
+    I.makeIdentity();// identity
 
     ans= (iomodel - ans).inverse() ;
+    cout<<"AFTER INVERSE IS CALLED"<<endl;
+    ans.print();
+
+
     ans= ans * demand;
     
 
@@ -141,8 +145,6 @@ int main(int argc , char * argv[] ){
 
 
     
-   
-
     cout<<"DEMAND"<<endl;
     demand.print();
     cout<<"Amount of each product needed:"<<endl;
@@ -152,28 +154,7 @@ int main(int argc , char * argv[] ){
     ans.print();
 
 
-    /*
-        TODO: main
-        read in the file
-        // - strings
-        // - matrix
-        // - vector/matrix
-
-        calculate the inverse 
-        - call the algorithm
-
-        returns a matrix inverse
-        - multiply inverse matrix * the vector given from the input file
-        - 
-        
-
-
-    */
-
-    // TODO: questions:
-
-    // If we do the isSingular question. Does that mean that the iomodel program will be given a nxm matrix?
-    //  No, hopefully if so how would htat be possible ??
+    
 
 
 

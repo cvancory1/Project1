@@ -93,7 +93,7 @@ void Matrix::print(){
     for(int i=0;i < rows ;i++){
         for(int j=0 ;j< cols ;j++){
             // cout<< arr[i][j];
-          printf("%f ", arr[i][j]);
+          printf("%.4f ", arr[i][j]);
 
         }
         cout<<endl;
@@ -515,6 +515,28 @@ Matrix Matrix::paddedMatrix( Matrix A , Matrix  I){
 Matrix Matrix::assembleMatrix( Matrix R ,Matrix  T ,Matrix  U ,Matrix  V){
     int paddedRow= R.getRowNum() + T.getRowNum();
     int paddedCol= R.getColNum() + U.getColNum();
+
+
+    cout<<"             IN ASSEMBLED MATRIX  "<<endl;
+
+    cout<<"PRINTIING R"<<endl;
+    R.print();
+
+    cout<<"PRINTIING T"<<endl;
+    T.print();
+
+    cout<<"PRINTIING U"<<endl;
+    U.print();
+
+cout<<"PRINTIING V"<<endl;
+    V.print();
+
+
+
+
+
+
+
     
      // makes a new matrix of size A and I 
     Matrix newMtx(paddedRow ,paddedCol );
@@ -537,11 +559,14 @@ Matrix Matrix::assembleMatrix( Matrix R ,Matrix  T ,Matrix  U ,Matrix  V){
             if(i < R.getRowNum() && j < R.getColNum()){ 
                 newMtx.arr[i][j]=R.arr[i][j];
                 // cout<<"first"<<endl;
+                cout<<"TOP LEFT "<< R.arr[i][j]<<endl;
 
             // top right 0
             }else if (i < R.getRowNum() && j >= R.getColNum()){
                 newMtx.arr[i][j]= T.arr[Trowpos][Tcolpos++];
-                // cout<<"second"<<endl;
+                // cout<<"second"<<newMtx.arr[i][j]<<endl;
+                cout<<"top right"<<endl;
+
                 if(Tcolpos ==  T.getColNum() ){
                     // cout<<"enter"<<endl;
                     Tcolpos=0;
@@ -549,8 +574,13 @@ Matrix Matrix::assembleMatrix( Matrix R ,Matrix  T ,Matrix  U ,Matrix  V){
                 }
             // bottom left
             }else if(i >= R.getRowNum() && j < R.getColNum()){
-                newMtx.arr[i][j]= U.arr[Urowpos][Ucolpos];
+                cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
+
+                newMtx.arr[i][j]= U.arr[Urowpos][Ucolpos++];
                 // cout<<"third"<< U.arr[Urowpos][Ucolpos++]<<endl;
+                // cout<<"third"<<newMtx.arr[i][j]<<endl;
+                cout<<"bottom left "<<endl;
+
                 if(Ucolpos ==  U.getColNum() ){
                     // cout<<"enter"<<endl;
                     Ucolpos=0;
@@ -559,15 +589,22 @@ Matrix Matrix::assembleMatrix( Matrix R ,Matrix  T ,Matrix  U ,Matrix  V){
 
             // bottom right
             }else if(i >= R.getRowNum() && j >= R.getColNum()){
-                // cout<<"rowPos="<<rowpos<<" colpos="<<colpos<< " num="<<I.arr[rowpos][colpos]<<endl;
+                cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
+
                 newMtx.arr[i][j]=V.arr[Vrowpos][Vcolpos++];
-                // cout<<"fourth"<<endl;
+
+
+                // cout<<"fourth"<<newMtx.arr[i][j]<<endl;
+                cout<<"bottom right"<<endl;
                 if(Vcolpos ==  V.getColNum() ){
                     // cout<<"enter"<<endl;
                     Vcolpos=0;
                     Vrowpos++;
                 }
             }
+
+            // cout <<"Assemble matrix  num="<<newMtx.arr[i][j]<<endl;
+
         }
     }
     //  cout<<"print assembled matrix"<<endl;
@@ -598,14 +635,17 @@ Matrix Matrix:: RecurseInverse(){
             A.arr[0][0]= recipricol;
         cout<<"rec="<<recipricol<<endl;
 
-        }else{
-            A.arr[0][0]= 0;
+        // }else{
+        //     A.arr[0][0]= 0;
 
         }
         A.print();
         return A;
-
     }
+    // }else if(A.rows ==2 && A.arr[0][0]==0){
+    //     A.determinant();
+        
+    // }
 
     int sizeOvertwo= A.rows/2;
     //1. divide A and into sub matricies where B,D  (top left bottom right) are  of size n/2
@@ -634,10 +674,8 @@ Matrix Matrix:: RecurseInverse(){
     B.print();
 
     //3.Compute  wT=CB^-1 and  wT =B^-1CT
-    Matrix W( A.rows , sizeOvertwo);
-    W = C*B;
-    Matrix wT( sizeOvertwo, A.rows );
-    wT = B*cT;
+    Matrix W= C*B;
+    Matrix wT= B*cT;
 
 
     cout<<"PRINTING W"<<endl;
@@ -658,9 +696,9 @@ Matrix Matrix:: RecurseInverse(){
     S.print();
 
     //6. recursively compute V=S^-1 inverse
-    Matrix V= S;
-    V= S.RecurseInverse();
-    cout<<"V PRINT"<<endl;
+    Matrix V= S.RecurseInverse();
+    // V= S.RecurseInverse();
+    cout<<"V PRINT after recursion"<<endl;
     V.print();
 
 
@@ -689,6 +727,8 @@ Matrix Matrix:: RecurseInverse(){
     Matrix Z = wT *Y;
     cout<<" \nZ"<<endl;
     Z.print();
+
+
     Matrix R= B +Z;
 
 
@@ -751,7 +791,7 @@ Matrix Matrix:: RecurseInverse(){
 
 //     }
 
-    cout<<" TESTING A* AT should == ID  ? "<<endl;
+    cout<<" TESTING A* AT should == ID   "<<endl;
     Matrix test(A.getRowNum(), Ainverse.getColNum());
     test = A* Ainverse;
     test.print();
