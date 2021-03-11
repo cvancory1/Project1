@@ -31,12 +31,9 @@ class Matrix{
         int getRowNum();
         int getColNum();
 
-        void makeIdentity( Matrix&);
-        void makeUpperTriang(Matrix& );
-        void makeLowerTriang(Matrix&);
-
-
-
+        Matrix makeIdentity();
+        Matrix makeUpperTriang();
+        Matrix makeLowerTriang();
 
 
         //void insert(int data);
@@ -48,22 +45,25 @@ class Matrix{
         Matrix operator*( const Matrix& );
 
 
-        bool operator==( const Matrix& );
-        bool operator!=( const Matrix& );
+        bool operator==( const Matrix );
+        bool operator!=( const Matrix );
 
         //scalar operator 
         Matrix operator*( int scalar);
 
-        bool isInvertible();   //  AKA isNonSingular();
-        Matrix cofactorExpansion();// TODO: this one 
+        int calcCofactor(Matrix A ,int index);
+        int determinant();   
+        // Matrix cofactorExpansion();// TODO: this one 
+
+        bool isInvertible();       //  AKA isNonSingular(); 
 
         Matrix transpose();
         Matrix RecurseInverse( ); //TODO make private eventually
         Matrix inverse( );
 
-        Matrix paddedMatrix( Matrix& ,Matrix &);
-        Matrix assembleMatrix( Matrix& ,Matrix & ,Matrix &,Matrix &);
-        Matrix divideMatrix(Matrix& A, int rowStart, int colStart, int numRows, int numCols);
+        Matrix paddedMatrix( Matrix ,Matrix );
+        Matrix assembleMatrix( Matrix ,Matrix  ,Matrix ,Matrix );
+        Matrix divideMatrix(Matrix , int , int , int , int );
 
 
 

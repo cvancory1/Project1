@@ -196,19 +196,22 @@ int main(){
 
     // C.print();
     // Matrix D=A;
-
     // A.assembleMatrix(A,B,C,D);
 
-   Matrix A(2,2);
-   int arr[]= {4,7,2,6};
-//    int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
-//    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
-//    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
 
 
+//     Matrix test=A;
+//     cout<<"aa"<<endl;
+//     // (A.makeIdentity()).print();
 
 
+// //    int arr[]= {4,7,2,6};
+// //    int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
+// //    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
+//    int arr[]= {1,0,0,1,0,2,1,2,2,1,0,1,2,0,1,4};
+        int arr[]= {6,0,0,5,1,7,2,-5,2,0,0,0,8,3,1,8}; // for testing det
 
+         Matrix A(4,4);
 
    int pos=0;
    for(int i =0;i< A.getRowNum() ;i++){
@@ -217,22 +220,35 @@ int main(){
      }
 
    }
-   cout<<"          before inverse"<<endl;
-
+    cout<<"printing A"<<endl;
     A.print();
+    A.determinant();
 
-   Matrix B= A.inverse();
-//    cout<<"          FIN MAIN"<<endl;
-//    B.print();
+//    cout<<"          before inverse"<<endl;
 
-   cout<<"          Inverse check"<<endl;
+//     A.print();
 
-    (B*A).print();
+//    Matrix B= A.inverse();
+// //    cout<<"          FIN MAIN"<<endl;
+// //    B.print();
+
+//    cout<<"          Inverse check should be the indentity"<<endl;
+
+//     (B*A).print();
 
 
     // Matrix h(1,1);
     // h.arr[0][0]=.4;
     // cout<<h.arr[0][0]*-1<<endl;
+
+
+
+
+
+
+
+
+
 
 }
 
@@ -243,7 +259,9 @@ int main(){
 //  [-0.375  ,  0.0625 ,  0.40625]]
 
 
-
+// 012
+// 103
+//4 -3 8
 
 
 
