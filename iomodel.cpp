@@ -27,10 +27,15 @@
 
 using namespace std;
 
-// TODO: follow procedure to input the information from the file and store in an array??? 
+
+void makeSpaces(int numSpaces){
+    for(int i=0; i< numSpaces ;i++){
+        printf(" ");
+    }
+}
+
 
 int main(int argc , char * argv[] ){
-
 
     if(argc !=2){
         // TODO: throw error
@@ -111,8 +116,8 @@ int main(int argc , char * argv[] ){
         
         }
     }
-    cout<<"\nPrinting matrix"<<endl;
-    iomodel.print();
+    // cout<<"\nPrinting matrix"<<endl;
+    // iomodel.print();
 
 
     Matrix demand (numSectors,1);
@@ -128,34 +133,32 @@ int main(int argc , char * argv[] ){
 
     infile.close();
 
-    Matrix ans = iomodel; // just to make sure the apporopriate size look over TODO:
-    Matrix I=iomodel;
-    I.makeIdentity();// identity
+    Matrix ID(numSectors,numSectors);
+    ID=ID.makeIdentity();
+    Matrix x  =(ID-iomodel).inverse() * demand;
+    // cout<<"priting ID- model"<<endl;
+    // x.print();
 
-    ans= (iomodel - ans).inverse() ;
-    cout<<"AFTER INVERSE IS CALLED"<<endl;
-    ans.print();
+    // x= x.inverse();
+
+    // cout<<"priting inverse"<<endl;
+    // x.print();
+
+    // cout<<"priting final"<<endl;
+
+    // x= x*demand;
+    // x.print();
 
 
-    ans= ans * demand;
-    
-
-    cout<<ans.getRowNum() <<" "<<ans.getColNum()<<endl;
-
-
-    
-    cout<<"DEMAND"<<endl;
-    demand.print();
     cout<<"Amount of each product needed:"<<endl;
      for(int i=0 ;i < numSectors ;i++){
-        // cout<<demand.arr[i][0]<<"dependencies"<<endl;
+        int length = strlen(sectors[i].data());
+        
+        printf("%s: ", sectors[i].data());
+        makeSpaces(15- length);
+        printf("%.2f units   \n",*x.arr[i]);
+
     }
-    ans.print();
-
-
-    
-
-
 
     return 0;
 }

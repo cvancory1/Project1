@@ -41,7 +41,7 @@ class Matrix{
 
         //overloaded operators 
         Matrix operator+( const Matrix& );
-        Matrix operator-( const Matrix& );
+        Matrix operator-(  Matrix& );
         Matrix operator*( const Matrix& );
 
 

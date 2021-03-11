@@ -122,17 +122,26 @@ Matrix Matrix:: operator+ (const Matrix& rhs ){
    
 }
 
-Matrix Matrix::operator-( const Matrix& rhs){
+Matrix Matrix::operator-(  Matrix& rhs){
+    Matrix A = *this;
+    // cout<<"PRINTINT INCOMING MARIX"<<endl;
+    // A.print();
+    // rhs.print();
 
-    if(this->cols == rhs.cols && this->rows==rhs.rows ){
+
+     if(A.getColNum() == rhs.cols && A.getRowNum()==rhs.rows ){
          Matrix temp(rhs.rows, rhs.cols);
 
-        for(int i=0;i < rows ;i ++){
-            for(int j=0;j < cols ;j++){
-                temp.arr[i][j]= arr[i][j]- rhs.arr[i][j];
+        for(int i=0;i < A.getRowNum(); i++){
+            for(int j=0;j < A.getColNum(); j++){
+                temp.arr[i][j]= A.arr[i][j]- rhs.arr[i][j];
+                // cout<<"A.arr[i][j]= "<<A.arr[i][j]<<"rhs.arr[i][j] "<<rhs.arr[i][j]<<endl;
+
             }
 
         }
+
+    
         return temp;
 
     }else{
@@ -372,8 +381,8 @@ Matrix Matrix::makeIdentity(){
         }
 
     }
-    cout<<"In idenity funcion"<<endl;
-    A.print();
+    // cout<<"In idenity funcion"<<endl;
+    // A.print();
     return A;
 
 }
@@ -853,7 +862,7 @@ Matrix Matrix:: RecurseInverse(){
         if( ceil(log2(rows)) != floor(log2(rows)) ){
             usedPadding= true;
             cout<<"         Before Padded matrix"<<endl;
-            A.print();
+            newMtx.print();
 
 
             // cout<<"rows"<<rows<<endl;
@@ -870,7 +879,7 @@ Matrix Matrix:: RecurseInverse(){
             Ideniity.print();
 
 
-            newMtx = paddedMatrix(A, Ideniity);
+            newMtx = paddedMatrix( newMtx, Ideniity);
             cout<<"    after Padded matrix"<<endl;
 
             newMtx.print();
