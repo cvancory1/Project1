@@ -30,7 +30,7 @@ all:
 stable:
 	git add -u
 	git commit -m "Stable copy"
-	git push origin main
+	git push origin master
 
 val:
 	make
