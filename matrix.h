@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+int numOp=0;
+
 Matrix::Matrix(int rowNum,int colNum){
 
     if(rowNum >= 0 && colNum >= 0){
@@ -140,8 +142,6 @@ Matrix Matrix::operator-(  Matrix& rhs){
             }
 
         }
-
-    
         return temp;
 
     }else{
@@ -153,31 +153,39 @@ Matrix Matrix::operator-(  Matrix& rhs){
 
 
 Matrix Matrix::operator*( const Matrix& rhs){
+    Matrix A= *this;
 
-    // a valid matrix to multiply
-    if(cols == rhs.rows ){
-        int tempRows = rows;
-        int tempCols = rhs.cols;
+    try{
+            // a valid matrix to multiply
+        if(A.getColNum() == rhs.rows ){
+            int tempRows = A.getRowNum();
+            int tempCols = rhs.cols;
 
-        // create the new matrix of the correct size
-        Matrix temp(tempRows, tempCols);
+            // create the new matrix of the correct size
+            Matrix temp(tempRows, tempCols);
 
-        for(int i=0;i < tempRows ;i++){
-            for(int j=0;j < rhs.cols ;j++){
-                double sum=0;
-                for(int k=0; k< cols; k++){
-                    // cout<<"this->arr[i][k]="<<this->arr[i][k]<<" arr[k][j]="<<rhs.arr[k][j]<<endl;
-                    sum+= arr[i][k]* rhs.arr[k][j];
+            for(int i=0;i < tempRows ;i++){
+                for(int j=0;j < rhs.cols ;j++){
+                    double sum=0;
+                    for(int k=0; k< cols; k++){
+                        // cout<<"this->arr[i][k]="<<this->arr[i][k]<<" arr[k][j]="<<rhs.arr[k][j]<<endl;
+                        sum+= A.arr[i][k]* rhs.arr[k][j];
+                    }
+                    temp.arr[i][j]=sum;
+                
                 }
-                temp.arr[i][j]=sum;
-              
             }
+            return temp;
+        }else{
+            throw "Multiplication ERROR :Invalid sizes";
         }
-        return temp;
-    }else{
-        cout<<"Multiplication ERROR :Invalid sizes"<<endl;
-        return *this;
+
+    } catch ( const char* s ){
+            return *this;
+            printf("Error: %s\n", s);
     }
+        
+   
 
 }
 
@@ -200,15 +208,6 @@ Matrix Matrix::transpose(){
     // make a new matrix switching the rows and cols
     Matrix Atranspose( cols , rows);
 
-    //user to traverse the Atranspose array 
-    int rowPos=0;
-    int colPos=0;
-
-    int rowTpos=0;
-    int colTpos=0;
-
-    // for(int i =0; i< cols*rows; i++){
-
     for(int i =0; i< cols; i++){
         for(int j=0 ; j< rows ;j++){
              Atranspose.arr[i][j] = arr[j][i];
@@ -225,11 +224,11 @@ Matrix Matrix::transpose(){
 
 // checks if two matricies are exactly the same
 bool Matrix::operator==( const Matrix rhs){
-    cout<<"OP EQUALS "<<endl;
+    // cout<<"OP EQUALS "<<endl;
     Matrix A=*this;
     // cout<<"here is the error out of bounds"<<endl;
 
-    cout<<A.arr[0][1]<<endl;
+    // cout<<A.arr[0][1]<<endl;
     if(A.getRowNum()!= rhs.rows || A.getColNum() != rhs.cols){
         return false;
     }else{
@@ -237,7 +236,7 @@ bool Matrix::operator==( const Matrix rhs){
          for(int i=0; i<A.getRowNum() ; i++){
             for(int j=0; j<A.getColNum() ; j++){
 
-                cout<<A.arr[i][j]<<" "<< rhs.arr[i][j]<<endl;
+                // cout<<A.arr[i][j]<<" "<< rhs.arr[i][j]<<endl;
                 if( A.arr[i][j] != rhs.arr[i][j]){
                     return false;
                 }
@@ -291,8 +290,13 @@ bool Matrix::operator==( const Matrix rhs){
 
 }
 
+// int Matrix::recordOperations(){
+        
+// }
 
-int Matrix::calcCofactor(Matrix A ,int index){
+
+
+double Matrix::calcCofactor(Matrix A ,int index){
     Matrix newMtx (A.getRowNum()-1 , A.getColNum()-1);
 
         // start at the 1st index because we are always removing the top row
@@ -310,34 +314,36 @@ int Matrix::calcCofactor(Matrix A ,int index){
             }
         }
     }
-    // cout<<"FINISH DIVIDING CALLING DET"<<endl;
-    // newMtx.print();
 
     return newMtx.determinant();
+
 
     
 }
 
 
 
-int Matrix::determinant(){
+double Matrix::determinant(){
 
     Matrix A =*this;
-    int det=0;
+    // cout<<"entering det"<<endl;
+    // sleep(1);
+    // A.print();
+    double det=0;
     // by Invertibe matrix theorem 
     if(rows != cols){
         return false;
     }else {
         // testing for the 2x2 case where det A= ad-bc
         if(rows == 2){
-            det= ( A.arr[0][0] * A.arr[1][1] ) - (A.arr[0][1] * A.arr[1][0] );
-            // cout<<"det"<<det<<endl;
+            // A.print();
+              det= ( A.arr[0][0] * A.arr[1][1] ) - (A.arr[0][1] * A.arr[1][0] );
            
         }else{
             // calulates the the summation from 0 to n 
            for(int i=0;i< A.getRowNum() ;i++){
-               det += pow(-1,i) * A.arr[0][i] * calcCofactor(A, i);
-             
+                det += (pow(-1,i) * A.arr[0][i] )* calcCofactor(A, i);
+
            }
 
         }
@@ -353,10 +359,13 @@ int Matrix::determinant(){
 bool Matrix:: isInvertible(){
     Matrix A= *this;
     int det= A.determinant();
-    if(det !=0){
-        return true;
-    }else {
+    // cout<<"is invertible det="<<det<<endl;
+
+
+    if(A.determinant() ==0){
         return false;
+    }else {
+        return true;
     }
 
 }        
@@ -423,12 +432,26 @@ Matrix Matrix::makeLowerTriang(){
 
     return A;
 }
+
+
+Matrix Matrix:: makeZero(){
+    Matrix A=*this;
+
+    for(int i=0; i< A.getRowNum();i++){
+        for(int j=0; j< A.getRowNum();j++){
+
+            A.arr[i][j]=0;
+        }
+    }
+    return A;
+}
+
 // given any matrix A makes a smaller matrix that is a subset of A which gets returned
 // used for the recursiveInverse 
 Matrix Matrix::divideMatrix(Matrix A, int rowStart, int colStart, int numRows, int numCols){
 
     Matrix temp(numRows , numCols);
-    cout<< "numRows"<<temp.rows<<"cols"<<temp.cols<<endl;
+    // cout<< "numRows"<<temp.rows<<"cols"<<temp.cols<<endl;
     // int rowPos= rowStart;
     // int colPos= colStart-1;
 
@@ -469,12 +492,8 @@ Matrix Matrix::divideMatrix(Matrix A, int rowStart, int colStart, int numRows, i
 // Inputs: the original matrix (top left) and the identity matrix(bottom right) 
 // adds 0's in top right an bottom left 
 Matrix Matrix::paddedMatrix( Matrix A , Matrix  I){
-    
     int paddedRow=A.getRowNum() + I.getRowNum();
     int paddedCol=A.getColNum() + I.getColNum();
-    //puts("CI print");
-    // A.print();
-    // I.print();
 
     // makes a new matrix of size A and I 
     Matrix newMtx(paddedRow ,paddedCol );
@@ -490,31 +509,31 @@ Matrix Matrix::paddedMatrix( Matrix A , Matrix  I){
             // fill the top left quad A
             if(i < A.getRowNum() && j < A.getColNum()){ 
                 newMtx.arr[i][j]=A.arr[i][j];
-                cout<<"first"<<endl;
+                // cout<<"first"<<endl;
 
             // top right 0
             }else if (i < A.getRowNum() && j >= A.getColNum()){
                 newMtx.arr[i][j]=0;
-                cout<<"second"<<endl;
+                // cout<<"second"<<endl;
             // bottom left
             }else if(i >= A.getRowNum() && j < A.getColNum()){
                 newMtx.arr[i][j]=0;
-                cout<<"third"<<endl;
+                // cout<<"third"<<endl;
 
             // bottom right
             }else if(i >= A.getRowNum() && j >= A.getColNum()){
                 // cout<<"rowPos="<<rowpos<<" colpos="<<colpos<< " num="<<I.arr[rowpos][colpos]<<endl;
                 newMtx.arr[i][j]=I.arr[rowpos][colpos++];
                 if(colpos ==  I.getColNum() ){
-                    cout<<"enter"<<endl;
+                    // cout<<"enter"<<endl;
                     colpos=0;
                     rowpos++;
                 }
             }
         }
     }
-     cout<<"print padded matrix"<<endl;
-     newMtx.print();
+    //  cout<<"print padded matrix"<<endl;
+    //  newMtx.print();
     return newMtx;
 
 }
@@ -524,27 +543,6 @@ Matrix Matrix::paddedMatrix( Matrix A , Matrix  I){
 Matrix Matrix::assembleMatrix( Matrix R ,Matrix  T ,Matrix  U ,Matrix  V){
     int paddedRow= R.getRowNum() + T.getRowNum();
     int paddedCol= R.getColNum() + U.getColNum();
-
-
-    cout<<"             IN ASSEMBLED MATRIX  "<<endl;
-
-    cout<<"PRINTIING R"<<endl;
-    R.print();
-
-    cout<<"PRINTIING T"<<endl;
-    T.print();
-
-    cout<<"PRINTIING U"<<endl;
-    U.print();
-
-cout<<"PRINTIING V"<<endl;
-    V.print();
-
-
-
-
-
-
 
     
      // makes a new matrix of size A and I 
@@ -568,13 +566,13 @@ cout<<"PRINTIING V"<<endl;
             if(i < R.getRowNum() && j < R.getColNum()){ 
                 newMtx.arr[i][j]=R.arr[i][j];
                 // cout<<"first"<<endl;
-                cout<<"TOP LEFT "<< R.arr[i][j]<<endl;
+                // cout<<"TOP LEFT "<< R.arr[i][j]<<endl;
 
             // top right 0
             }else if (i < R.getRowNum() && j >= R.getColNum()){
                 newMtx.arr[i][j]= T.arr[Trowpos][Tcolpos++];
                 // cout<<"second"<<newMtx.arr[i][j]<<endl;
-                cout<<"top right"<<endl;
+                // cout<<"top right"<<endl;
 
                 if(Tcolpos ==  T.getColNum() ){
                     // cout<<"enter"<<endl;
@@ -583,12 +581,12 @@ cout<<"PRINTIING V"<<endl;
                 }
             // bottom left
             }else if(i >= R.getRowNum() && j < R.getColNum()){
-                cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
+                // cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
 
                 newMtx.arr[i][j]= U.arr[Urowpos][Ucolpos++];
                 // cout<<"third"<< U.arr[Urowpos][Ucolpos++]<<endl;
                 // cout<<"third"<<newMtx.arr[i][j]<<endl;
-                cout<<"bottom left "<<endl;
+                // cout<<"bottom left "<<endl;
 
                 if(Ucolpos ==  U.getColNum() ){
                     // cout<<"enter"<<endl;
@@ -598,22 +596,19 @@ cout<<"PRINTIING V"<<endl;
 
             // bottom right
             }else if(i >= R.getRowNum() && j >= R.getColNum()){
-                cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
+                // cout<<"INDEX OF THE BOTTOM RIGHT VrowPos=" << Vrowpos <<" VcolPos="<<Vcolpos<<endl;
 
                 newMtx.arr[i][j]=V.arr[Vrowpos][Vcolpos++];
 
 
                 // cout<<"fourth"<<newMtx.arr[i][j]<<endl;
-                cout<<"bottom right"<<endl;
+                // cout<<"bottom right"<<endl;
                 if(Vcolpos ==  V.getColNum() ){
                     // cout<<"enter"<<endl;
                     Vcolpos=0;
                     Vrowpos++;
                 }
             }
-
-            // cout <<"Assemble matrix  num="<<newMtx.arr[i][j]<<endl;
-
         }
     }
     //  cout<<"print assembled matrix"<<endl;
@@ -631,24 +626,21 @@ cout<<"PRINTIING V"<<endl;
 // recursive matrix call and assumes A is nxn , n -2^k, and A is symetric (i.e. A.T = A)
 Matrix Matrix:: RecurseInverse(){
     Matrix A= *this;
-    cout<<"     ENTER RECURSIVE \n origina A matrix that comes in "<<endl;
-    A.print();
+    // cout<<"     ENTER RECURSIVE \n origina A matrix that comes in "<<endl;
+    // A.print();
     // sleep(1);
 
     // base case 
     if(A.rows == 1 && A.cols ==1){
-        cout<<"\n\nEntering the base case"<<endl;
+        // cout<<"\n\nEntering the base case"<<endl;
 
         if(arr[0][0] != 0){
             double recipricol = 1.0/A.arr[0][0];
             A.arr[0][0]= recipricol;
-        cout<<"rec="<<recipricol<<endl;
-
-        // }else{
-        //     A.arr[0][0]= 0;
+            // cout<<"rec="<<recipricol<<endl;
 
         }
-        A.print();
+        // A.print();
         return A;
     }
     // }else if(A.rows ==2 && A.arr[0][0]==0){
@@ -665,147 +657,95 @@ Matrix Matrix:: RecurseInverse(){
 
 
     //my checks
-    cout<<"PRINTING B"<<endl;
-    B.print();
-    cout<<"\nPRINTING D"<<endl;
-    D.print();
+    // cout<<"PRINTING B"<<endl;
+    // B.print();
+    // cout<<"\nPRINTING D"<<endl;
+    // D.print();
 
-    cout<<"\nPRINTING C"<<endl;
-    C.print(); cout<<"\nPRINTING cT"<<endl;
-    cT.print();
+    // cout<<"\nPRINTING C"<<endl;
+    // C.print(); cout<<"\nPRINTING cT"<<endl;
+    // cT.print();
 
 
     //2. recursively compute B inverse
     B = B.RecurseInverse();
 
 
-    cout<<"B AFTER the INVERSE "<<endl;
-    B.print();
+    // cout<<"B AFTER the INVERSE "<<endl;
+    // B.print();
 
     //3.Compute  wT=CB^-1 and  wT =B^-1CT
     Matrix W= C*B;
     Matrix wT= B*cT;
 
 
-    cout<<"PRINTING W"<<endl;
-    W.print();
+    // cout<<"PRINTING W"<<endl;
+    // W.print();
 
-    cout<<"\n\nPRINTING wT"<<endl;
-    wT.print();
+    // cout<<"\n\nPRINTING wT"<<endl;
+    // wT.print();
 
     
     //4. compute X=WcT
     Matrix X = W*cT;
-    cout<<"X PRINT"<<endl;
-    X.print();
+    // cout<<"X PRINT"<<endl;
+    // X.print();
 
     //5. compute S=D-X
     Matrix S = D-X;
-    cout<<"S PRINT"<<endl;
-    S.print();
+    // cout<<"S PRINT"<<endl;
+    // S.print();
 
     //6. recursively compute V=S^-1 inverse
     Matrix V= S.RecurseInverse();
-    // V= S.RecurseInverse();
-    cout<<"V PRINT after recursion"<<endl;
-    V.print();
+    // // V= S.RecurseInverse();
+    // cout<<"V PRINT after recursion"<<endl;
+    // V.print();
 
 
     //7. Compute Y =S^-1 W and yT - Moved the yT to after 8. b/c U= -Y 
-    cout<<"y and yT PRINT"<<endl;
+    // cout<<"y and yT PRINT"<<endl;
 
     Matrix Y = V*W;
     Matrix yT= Y.transpose();
-    Y.print();
-    yT.print();
-    cout<<endl;
+    // Y.print();
+    // yT.print();
+    // cout<<endl;
 
 
-    cout<<"t and U PRINT"<<endl;
+    // cout<<"t and U PRINT"<<endl;
     //8. SetT= −yT and U=−Y.
     Matrix T = yT*-1;
     Matrix U= Y*-1;
 
-    T.print();
-    cout<<endl;
-    U.print();
+    // T.print();
+    // cout<<endl;
+    // U.print();
 
     //9. ComputeZ=wT*Y and set R=B^-1+Z.
 
 
     Matrix Z = wT *Y;
-    cout<<" \nZ"<<endl;
-    Z.print();
+    // cout<<" \nZ"<<endl;
+    // Z.print();
 
 
     Matrix R= B +Z;
 
 
 
-    cout<<"\n R"<<endl;
-    R.print();
-    cout<<" \nT"<<endl;
-    T.print();
+    // cout<<"\n R"<<endl;
+    // R.print();
+    // cout<<" \nT"<<endl;
+    // T.print();
 
-    cout<<" \nU"<<endl;
-    U.print();
+    // cout<<" \nU"<<endl;
+    // U.print();
 
-    cout<<"\n V"<<endl;
-    V.print();
+    // cout<<"\n V"<<endl;
+    // V.print();
 
     Matrix Ainverse = assembleMatrix(R,T,U,V);
-    cout<<" Printing the Assembled matrix "<<endl;
-    Ainverse.print();
-    
-
-//     // TODO: somehow when i send in test it is acessing something strange
-//     Matrix ID (A.rows , A.cols);
-//     ID= ID.makeIdentity();
-//     // cout<<"ID MAtrix "<<endl;
-
-//     // ID.print();
- 
-//     Matrix Test (A.getRowNum() , A.getColNum());
-//     Test = A * Ainverse;
-
-//     cout<<"A ROWS COLS"<< A.rows <<" "<<A.cols <<endl;
-//     Test.print();
-
-//     for(int i =0 ;i < A.rows ;i++){
-//         for (int j=0; j< A.cols ;j++){
-//             cout<<Test.arr[i][j];
-//         }
-//         cout<<endl;
-//     }
-
-
-//     cout<<"\n\n\n"<<endl;
-//    // cout<<"HERE I AM "<<Test.arr[0][1]<< "print rows and cols"<<A.getRowNum() <<" "<<A.getColNum()<<" " <<endl;
-
-//     cout<<"test "<<endl;
-//     Test.print();
-
-
-// ////////////////////////////
-
-//     if(Test == ID){
-//         cout<<"ID MATRIX YAY!!!!!!!!!!!!!!!!!"<<endl;
-
-//     }else if(Test != ID){
-//         cout<<"                 error printing \n Print A*AINVERSE  "<<endl;
-//         (A * Ainverse).print();
-//         cout<<"\n "<<endl;
-//         // ID.print();
-
-
-//     }
-
-    cout<<" TESTING A* AT should == ID   "<<endl;
-    Matrix test(A.getRowNum(), Ainverse.getColNum());
-    test = A* Ainverse;
-    test.print();
-
-    cout<<test.arr[0][1]<<endl;
 
     return Ainverse;
 
@@ -817,8 +757,7 @@ Matrix Matrix:: RecurseInverse(){
 // Properly checks that the matrix can be inverted and manipulates the matrix to be inverted recursively
  Matrix Matrix:: inverse(){
         Matrix A=*this; //makes a copy of this 
-        Matrix newMtx(1,1);
-
+        Matrix newMtx(1,1); 
 
         // stores the original dimensions of "A" b/c "A" will get reassigned later 
         int Arows= A.getRowNum();
@@ -828,61 +767,72 @@ Matrix Matrix:: RecurseInverse(){
         bool madeSymetrical=false;
 
 
-        // cout<<"here"<<endl;
-        // AT.print();
+        //     //TODO: throw error and create an else to nest the other statements
 
-            //TODO: throw error and create an else to nest the other statements
-        if(A.isInvertible() == false){ 
-            cout<<"This is not invertible. ERROR WILL BE THROWN  "<<endl;
+        try{
+            if(A.isInvertible() == false){ 
+                // cout<<"This is not invertible. ERROR! "<<endl;
+                throw "This is not invertible. ERROR!";
+
+            }
+
+        }catch ( const char* s ){
+            printf("Error: %s\n", s);
+        }
         
+
+        if(A.getRowNum() ==1 && A.getColNum()==1){
+            double det= 1/A.arr[0][0];
+            newMtx.arr[0][0]= det;
+            return newMtx;
+
+        }else if(A.getRowNum() ==2 && A.getColNum()==2){
+            Matrix temp (2,2);
+            double det= A.determinant();
+            det= 1/det;
+            temp.arr[0][0]= A.arr[1][1] * det;
+            temp.arr[0][1]= A.arr[0][1] * det *-1;
+            temp.arr[1][0]= A.arr[1][0] * det*-1;
+            temp.arr[1][1]= A.arr[0][0] * det;
+
+            return temp;
+
         }
 
-
-        
-        Matrix AT= A.transpose();
-      
         // if not symetric aka AT= A Then multiply to make symmetric 
+       Matrix AT= A.transpose();
        if(A != AT){ 
             madeSymetrical=true;
-            // cout<<"A != A transpose"<<endl;
-            cout<<"printing transpose"<<endl;
-            AT.print();
-
             newMtx= AT * A; // guarentees matrix is not symmetric
-            cout<<"printing AT*A transpose"<<endl;
-            newMtx.print();
 
+            // // cout<<"A != A transpose"<<endl;
+            // cout<<"printing transpose"<<endl;
+            // AT.print();
+
+            // cout<<"printing AT*A transpose"<<endl;
+            // newMtx.print();
         }
 
 
-        //Matrix Ideniity (3,3);
-        cout<<"POWER OF 2 CHeCK"<<endl;
-
+        // cout<<"POWER OF 2 CHeCK"<<endl;
         // if not power of 2
         if( ceil(log2(rows)) != floor(log2(rows)) ){
             usedPadding= true;
-            cout<<"         Before Padded matrix"<<endl;
-            newMtx.print();
-
-
+            // cout<<"         Before Padded matrix"<<endl;
+            // newMtx.print();
             // cout<<"rows"<<rows<<endl;
             int nextPow = ceil(log2(rows));
+            int k= pow(2,nextPow) - rows;
             // cout<<"ceil="<<log2(rows)<<endl;
             // cout<<"nextPow="<<nextPow<<endl;
-
-            int k= pow(2,nextPow) - rows;
             // cout<<"k="<<k<<endl;
-            cout<<"    ID matix"<<endl;
+            // cout<<"    ID matix"<<endl;
             Matrix Ideniity(k,k);
             Ideniity = Ideniity.makeIdentity();
-           
-            Ideniity.print();
-
 
             newMtx = paddedMatrix( newMtx, Ideniity);
-            cout<<"    after Padded matrix"<<endl;
 
-            newMtx.print();
+            //  newMtx.print();
 
         }
 
@@ -893,23 +843,165 @@ Matrix Matrix:: RecurseInverse(){
         // extract the top left of the matrix 
         if(usedPadding ==true ){
             inverse = divideMatrix( inverse ,0, 0, Arows ,Acols); // divides based upon previous measurements??
-            cout<<"extract top left"<<endl;
-            inverse.print();
+            // cout<<"extract top left"<<endl;
+            // inverse.print();
            
         }
 
         if(madeSymetrical ==true){
-            cout<<"\nRemuultiplied matrix FIN ANS"<<endl;
+            // cout<<"\nRemuultiplied matrix FIN ANS"<<endl;
             inverse = inverse *AT;
-            inverse.print();
+            // inverse.print();
 
         }
-        // return (A.transpose()*A).inverse() * A.transpose();
+
+
 
 
     return inverse;
  }
 
 
+Matrix Matrix::paddStrassen( Matrix A, int nextPow){
+    A.print();
+    cout<<"here"<<nextPow<<endl;
+    Matrix  B (nextPow,nextPow) ;
+    int rowNum = 0;
+    int colNum = 0;
+
+    cout<<rowNum<<" "<<colNum<<endl;
 
 
+    for(int i=0; i< nextPow ; i++){
+        for(int j=0; j<nextPow ; j++){
+            // cout<<"here"<<endl;
+
+            if( i< A.getRowNum() && j<A.getColNum()){
+                B.arr[i][j] = A.arr[rowNum][colNum++];
+                //  cout<<"B.arr[i][j]="<<B.arr[i][j]<<" A.arr[row][col++]"<<A.arr[rowNum][colNum]<<endl;
+
+                if(colNum == A.getColNum()){
+                    colNum=0;
+                    rowNum++;
+                }
+
+
+            }else {
+                // cout<<"here"<<endl;
+                B.arr[i][j]= 0;
+            }
+
+        }
+    }
+    return B;
+}
+
+
+Matrix Matrix::strassen(Matrix B, Matrix C){
+    
+    //cant multiply 
+    if(B.getColNum() != C.getRowNum()){
+        cout<<"ERROR MULTIPLYING"<<endl;
+
+    }else if((B.getRowNum() ==1 && B.getColNum()==1) && (C.getRowNum() ==1 && C.getColNum()==1) ){ //1x1 case
+        Matrix mtx (1,1);
+        mtx.arr[0][0]= B.arr[0][0] * C.arr[0][0];
+        return mtx;
+        
+    }else if(ceil(log2(B.getColNum())) != floor(log2(B.getColNum()))){ // not a power of 2
+        int nextPow = ceil(log2(B.getRowNum()));
+        // int k= pow(2,nextPow) - B.getRowNum();
+
+        Matrix newB = paddStrassen( B, nextPow);
+        // nextPow = ceil(log2(C.getRowNum()));
+        // k= pow(2,nextPow) - B.getRowNum();
+        Matrix newC = paddStrassen( C, nextPow);
+
+        Matrix newMtx= strassen(newB,newC);
+        newMtx= divideMatrix(newMtx, 0, 0, B.getRowNum(), C.getColNum());
+        return newMtx;
+
+
+    }else {
+
+    }
+
+    int nOver2 = B.getRowNum()/2;
+
+    Matrix A11 = B.divideMatrix(B,0,0, nOver2, nOver2);
+    Matrix A12 = B.divideMatrix(B, 0,nOver2, nOver2, nOver2);
+    Matrix A21 = B.divideMatrix(B,nOver2,0, nOver2, nOver2);
+    Matrix A22 = B.divideMatrix(B,nOver2,nOver2, nOver2, nOver2);
+
+    Matrix B11 = C.divideMatrix(C , 0 , 0 , nOver2, nOver2);
+    Matrix B12 = C.divideMatrix(C , 0 , nOver2 , nOver2, nOver2);
+    Matrix B21 = C.divideMatrix(C , nOver2, 0 , nOver2, nOver2);
+    Matrix B22 = C.divideMatrix(C ,  nOver2, nOver2 , nOver2, nOver2);
+
+    // cout<<"Printing A"<<endl;
+    // A11.print();
+    // A12.print();
+    // A21.print();
+    // A22.print();
+
+    // cout<<"Printing A"<<endl;
+    // B11.print();
+    // B12.print();
+    // B21.print();
+    // B22.print();
+
+
+    Matrix S1 = B12 - B22;
+    Matrix S2 = A11 + A12;
+    Matrix S3 = A21 +A22;
+    Matrix S4 = B21 -B11;
+    Matrix S5 = A11 +A22;
+    Matrix S6 = B11 +B22;
+    Matrix S7 = A12 -A22;
+    Matrix S8 = B21 + B22;
+    Matrix S9 = A11 - A21;
+    Matrix S10 = B11+B12;
+
+    cout<<"Printing S"<<endl;
+
+    // S1.print();
+    // S2.print();
+    // S3.print();
+    // S4.print();
+    // S5.print();
+    // S6.print();
+    // S7.print();
+    // S8.print();
+    // S9.print();
+    // S10.print();
+
+
+    Matrix P1 = A11 * S1;
+    Matrix P2 = S2 * B22;
+    Matrix P3 = S3 * B11;
+    Matrix P4 = A22 * S4;
+    Matrix P5 = S5 * S6;
+    Matrix P6 = S7 * S8;
+    Matrix P7 = S9 * S10;
+
+
+    // P1.print();
+    // P2.print();
+    // P3.print();
+    // P4.print();
+    // P5.print();
+    // P6.print();
+    // P7.print();
+
+
+    Matrix C11 = P5 + P4 - P2 +P6;
+    Matrix C12 = P1 + P2;
+    Matrix C21 = P3 + P4;
+    Matrix C22 = P5 + P1 - P3 - P7;
+
+
+    return assembleMatrix(C11, C12, C21, C22);
+
+
+
+}

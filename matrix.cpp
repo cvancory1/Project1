@@ -16,6 +16,7 @@ class Matrix{
 
         public:
             double ** arr;
+            int operations;
 
 
     public:
@@ -31,9 +32,12 @@ class Matrix{
         int getRowNum();
         int getColNum();
 
+
+
         Matrix makeIdentity();
         Matrix makeUpperTriang();
         Matrix makeLowerTriang();
+        Matrix makeZero();
 
 
         //void insert(int data);
@@ -43,6 +47,8 @@ class Matrix{
         Matrix operator+( const Matrix& );
         Matrix operator-(  Matrix& );
         Matrix operator*( const Matrix& );
+        Matrix strassen(Matrix A, Matrix B);
+
 
 
         bool operator==( const Matrix );
@@ -51,9 +57,9 @@ class Matrix{
         //scalar operator 
         Matrix operator*( int scalar);
 
-        int calcCofactor(Matrix A ,int index);
-        int determinant();   
-        // Matrix cofactorExpansion();// TODO: this one 
+
+        double calcCofactor(Matrix A ,int index);
+        double determinant();   
 
         bool isInvertible();       //  AKA isNonSingular(); 
 
@@ -61,9 +67,12 @@ class Matrix{
         Matrix RecurseInverse( ); //TODO make private eventually
         Matrix inverse( );
 
+        Matrix paddStrassen( Matrix , int );
+
         Matrix paddedMatrix( Matrix ,Matrix );
         Matrix assembleMatrix( Matrix ,Matrix  ,Matrix ,Matrix );
         Matrix divideMatrix(Matrix , int , int , int , int );
+
 
 
 

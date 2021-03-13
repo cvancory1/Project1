@@ -17,335 +17,54 @@ project1 - main
 
 #include "matrix.h"
 
-
 using namespace std;
+
 
 
 void fillMatrix(Matrix& A);
 void fillMatrixByHand(Matrix& A);
 void makeDiagnol(Matrix& A);
-// void makeUpperTriang(Matrix& A);
-// void makeLowerTriang(Matrix& A);
-// void makeIdentity(Matrix& A);
 
 
-Matrix timeAdd( Matrix A, Matrix B);
-Matrix timeSub( Matrix A, Matrix B);
-Matrix timeMult( Matrix A, Matrix B);
 
+void fillMatrix(Matrix& A, int arr[]){
 
-
-int main(){
-
-    // Matrix A1( 1,4);
-    // fillMatrix(A1);
-
-    // Matrix A2( 4,4);
-    // fillMatrix(A2);
-
-
-    // cout<<"Printing A1\n"<<endl;
-    // A1.print();
-    // cout<<"Printing A2\n"<<endl;
-    // A2.print();
-
-
-    // cout<<"Calling copy ctor on A3(A1) \n"<<endl;
-    // Matrix A3(A1);
-    // A3.print();
-
-
-    // cout<<endl;
-    // cout<<"Calling op equal A3=A2 so now A3's size changes \n"<<endl;
-    // A3 = A2;
-    // A3.print();
-
-    // cout<<"Testing subtraction and addtion with 2x2 \n"<<endl;
-
-    // Matrix A4(2,2);
-    // Matrix A5(2,2);
-    // fillMatrix(A4);
-    // fillMatrix(A5);
-
-    // cout<<"Printing the matricies before the operations"<<endl;
-    // A4.print();
-    // cout<<endl;
-    // A5.print();
-
-
-    // cout<<"Calling op +  \n"<<endl;
-    // Matrix A6 = A4+A5;
-    // A6.print();
-
-    // cout<<"Calling op- Subtraction  \n"<<endl;
-
-    // A6 = A4-A5;
-    // A6.print();
-
-
-    // Matrix A7(3,2);
-    // Matrix A8(1,2);
-    // fillMatrix(A7);
-    // fillMatrix(A8);
-
-    // //fillMatrixByHand(A8);
-
-    // A7.print();
-    // puts("");
-    // A8.print();
-
-
-    // Matrix A9 = A7*A8;
-    // A9.print();
-
-
-    // cout<<"------------\n Upper triagnular matrix"<<endl;
-    // Matrix matrix1(3,5);
-    // fillMatrix(matrix1);
-    // makeUpperTriang(matrix1);
-    // matrix1.print();
-
-    // cout<<"------------\n Upper triagnular matrix * vector"<<endl;
-
-    // Matrix V (5,1);
-    // fillMatrix(V);
-    // Matrix temp = matrix1 * V;
-    // temp.print();
-
-
-
-    //  cout<<"------------\n lower triagnular matrix * upper triangular "<<endl;
-    // Matrix matrix2(5,5);
-    // fillMatrix(matrix2);
-    // makeLowerTriang(matrix2);
-    // matrix2.print();
-
-    // temp = matrix1 * matrix2 ;
-    // temp.print();
-
-
-
-    // cout<<"------------\n Diag matrix + lower triangular "<<endl;
-    // Matrix matrix3(5,5);
-    // fillMatrix(matrix3);
-    // makeDiagnol(matrix3);
-    // matrix3.print();
-    // temp = matrix3 * matrix2 ;
-
-
-  
-
-
-    // cout<<"------------\n Extra Credit- Scalar "<<endl;
-    // Matrix matrix4(5,5);
-    // fillMatrix(matrix4);
-    // cout<<"Before Scalar"<<endl;
-    // matrix4.print();
-    // matrix4=matrix4*2;
-    // cout<<"After Scalar"<<endl;
-    // matrix4.print();
-    
-
-
-
-    // used to time the operations
-    // //int arr[]={10000,20000,30000,40000};
-
-    // for(int i =0; i< 4 ;i++){
-    //     cout<<"Size="<<arr[i]<<endl;
-    //     Matrix A (arr[i],arr[i]);
-    //     fillMatrix(A);
-    //     Matrix B= A;
-    // //     cout<<"add"<<endl;
-    // //    timeAdd(A,B);
-    // //     cout<<"sub"<<endl;
-
-    // //     timeSub(A,B);
-    //    timeMult(A,B);
-
-    // }
-
-
-
-//     Matrix A (3,3);
-// //    A.makeIdentity(A);
-//     fillMatrix(A);
-   
-
-//     //  A.makeUpperTriang(A);
-//     // A.print();
-
-//    // A.inverse(A);
-//     // // A.transpose();
-//     // // cout<<A.isInvertible()<<endl;
-//     // A.inverse(A);
-
-// //    Matrix B(1,1);
-// //    B= B.divideMatrix(A, 2 ,3 ,3,3 );
-
-// //     B.print();
-//     A.inverse(A);
-    
-    
-//    fillMatrix(A);
-//    A.makeIdentity(A);
-
-
-    // Matrix B=A;
-    // Matrix C=A;
-
-    // C.print();
-    // Matrix D=A;
-    // A.assembleMatrix(A,B,C,D);
-
-
-
-//     Matrix test=A;
-//     cout<<"aa"<<endl;
-//     // (A.makeIdentity()).print();
-
-
-        int size=4;
-        // int arr[]= {6,0,0,5,1,7,2,-5,2,0,0,0,8,3,1,8}; // for testing det
-        //    int arr[]= {4,7,2,6};
-        //    int arr[]= {0,7,2,6};
-
-//    int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
-// //    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
-   int arr[]= {1,0,0,1,0,2,1,2,2,1,0,1,2,0,1,4};
-
-         Matrix A(size,size);
-
-        int pos=0;
-        for(int i =0;i< A.getRowNum() ;i++){
-          for(int j =0; j< A.getRowNum() ;j++){
+ int pos=0;
+    for(int i =0;i< A.getRowNum() ;i++){
+        for(int j =0; j< A.getRowNum() ;j++){
             A.arr[i][j] = arr[pos++];
-          }
-
         }
-            cout<<"printing A"<<endl;
-        A.print();
 
+    }
+}
 
-        cout<<"          before inverse"<<endl;
+void fillRand(Matrix& A){
 
-        A.print();
+    srand(time(NULL));
+     for(int i=0;i<A.getRowNum();i++){
+        for(int j=0;j<A.getRowNum();j++){
 
-        Matrix B= A.inverse();
-        //    cout<<"          FIN MAIN"<<endl;
-        //    B.print();
-
-        cout<<"          Inverse check should be the indentity"<<endl;
-
-        (B*A).print();
-
-
-    // Matrix h(1,1);
-    // h.arr[0][0]=.4;
-    // cout<<h.arr[0][0]*-1<<endl;
-
-
-
-
-
-
-
-
-
+            A.arr[i][j]= rand() % 10+ 2; 
+        }
+    }
 
 }
 
 
-// TODO: check padding nad valgrind
-// [[-0.25   , -0.125  ,  0.6875 ],
-//  [ 0.625  ,  0.0625 , -0.59375],
-//  [-0.375  ,  0.0625 ,  0.40625]]
+Matrix timeInverse(Matrix A){
+   
+  auto begin = std::chrono::system_clock::now();
+  Matrix temp = A.inverse();
 
-
-// 012
-// 103
-//4 -3 8
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/****************************************/
-
-
-
-
-
-// Quickly populates array with numbers 1 -n 
-void fillMatrix(Matrix& A){
-    int data =1;
+  auto finish = std::chrono::system_clock::now();
+  std::chrono::duration<double> elapsed_seconds = finish-begin;
+  std::time_t end_time = std::chrono::system_clock::to_time_t(finish);
+  std::cout << " finished at " << std::ctime(&end_time)
+    << "elapsed time: " << elapsed_seconds.count() << " seconds\n\n" ;
+  
+    return temp;
     
-     for(int i=0 ;i<A.getRowNum() ;i++){
-        for(int j=0; j<A.getColNum() ;j++){
-            A.arr[i][j]=data++;
-        
-        }
-    }
-
 }
-
-void fillMatrixByHand(Matrix& A){
-    
-     for(int i=0 ;i<A.getRowNum() ;i++){
-        for(int j=0; j<A.getColNum() ;j++){
-            int num;
-            cin>>num;
-            A.arr[i][j]=num;
-        
-        }
-    }
-
-}
-
-void makeDiagnol(Matrix& A){
-    for(int i=0 ;i<A.getRowNum() ;i++){
-        for(int j=0; j<A.getColNum() ;j++){
-            if(i!=j){
-                A.arr[i][j]=0;
-                
-            }
-        }
-    }
-
-}
-
-
-// void makeIdentity(Matrix& A){
-
-//      for(int i=0 ;i<A.getRowNum() ;i++){
-//         A.arr[i][i]=1;
-                
-//     }
-
-// }
-
-
 Matrix timeAdd( Matrix A, Matrix B){
 
  
@@ -392,12 +111,264 @@ Matrix timeMult( Matrix A, Matrix B){
 }
 
 
-/*
-echo "# Project1" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/cvancory1/Project1.git
-git push -u origin main
-*/
+
+int main(){
+
+    
+    // Matrix B(2,2);
+    // fillMatrix(B);
+    // Matrix C=B;
+
+    // cout<<"\nPrinting Matrix C and B"<<endl;
+    // B.print();
+    // cout<<endl;
+    // C.print();
+
+    // cout<<"\nPrinting B*C"<<endl;
+    // timeMult(B,C);
+    // (B*C).print();
+
+    // cout<<"\nPrinting B-C"<<endl;
+    // timeSub(B,C);
+    // (B-C).print();
+    
+
+    int size = 2;
+    Matrix A(size,size);
+    int arr[]= {4,7,2,6};
+    fillMatrix(A,arr);
+   
+    cout<<"printing A"<<endl;
+    // A.print();
+    cout<<"here";
+    Matrix temp=timeInverse(A);
+    cout<<"The inverse of  A is "<<endl;
+    temp.print();
+    cout<<"\n\n Check A*Ainverse"<<endl;
+    (A*temp).print();
+
+
+
+
+
+    // cout<<"\nPrinting E"<<endl;
+    // size=3;
+    // int arr3[]= {4,3,0,6,5,2,9,7,3};
+    // Matrix E (size,size);
+    // fillMatrix(E,arr3);
+    // E.print();
+
+    // cout<<"\nFinding E^inverse"<<endl;
+    //  temp=timeInverse(E);
+
+    // temp.print();
+    // cout<<"\nChecking the answer. SHould equal the idenity "<<endl;
+    // (E* E.inverse()).print() ;
+
+    //  int arr4[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson the inverse is below 
+    //  Matrix K(size,size);
+
+
+    // cout<<"\nCalc D^inverse printing D"<<endl;
+
+    // size=4;
+    // Matrix D (size,size);
+    // int arr2[]= {5,-7,2,2,0,3,0,-4,-5,-8,0,3,0,5,0,-6};
+    // fillMatrix(D, arr2);
+
+    // cout<<"\nThe Matrix  D is "<<endl;
+    // D.print();
+
+
+    // cout<<"Testing D+D"<<endl;
+    // timeAdd(D,D);
+    // cout<<"Testing D-D"<<endl;
+    // timeSub(D,D);
+
+
+    // cout<<"\nThe inverse of  D is "<<endl;
+    // (D.inverse()).print();
+
+    // timeInverse(D);
+    // cout<<"\n\n D*Dinverse\n"<<endl;
+    // (D*D.inverse()).print();
+
+
+
+
+     size=5;
+    Matrix F(size,size);
+    // int arr[]= {6,0,0,5,1,7,2,-5,2,0,0,0,8,3,1,8,}; // for testing det
+    int arr5[]= {1,3,-1,0,-2,0,2,-4,-2,-6,-2,-6,2,3,10,1,5,-6,2,-3,0,2,-4,5,9}; 
+    
+    fillMatrix(F,arr5);
+    cout<<"Printing R "<<endl;
+    F.print();
+    cout<<"find inverse"<<endl;
+    temp=timeInverse(F);
+    temp.print();
+    cout<<"Checking inverse"<<endl;
+
+    (temp*F).print();
+
+
+
+
+
+
+
+
+    // size=50;
+    // cout<<"Size="<<size<<endl;
+    // // int arr6[]= {1,4,2,3,-9,0,2,3,4,5,1,2,3,8,-5,-6,3,-4,1,10,2,-4,1,-5,-4,-3,7,3,5,2,4,6,2,8,3,2}; 
+    // Matrix G(size,size);
+    // fillRand(G);
+    // cout<<"Printing G "<<endl;
+    // G.print();
+    // cout<<"find inverse"<<endl;
+    // temp=timeInverse(G);
+    // temp.print();
+    // cout<<"Checking inverse"<<endl;
+
+    // (temp*G).print();
+
+
+    // sleep(1);
+
+    // cout<<"making matricies of larger sizes and testing the inverse time "<<endl;
+
+
+
+    // size=100;
+
+    // while(size!=1100){
+    //     cout<<"Size="<<size<<endl;
+         
+    //     Matrix H(size,size);
+    //     fillRand(H);
+    //     // cout<<"Printing H "<<endl;
+    //     // H.print();
+    //     cout<<"find inverse"<<endl;
+    //     temp=timeInverse(H);
+
+    //     cout<<"find Add"<<endl;
+
+    //     timeAdd(H,H);
+    //     cout<<"find Sub"<<endl;
+
+    //     timeSub(H,H);
+    //     cout<<"find Mult"<<endl;
+
+    //     timeMult(H,H);
+    //     // temp.print();
+    //     // cout<<"Checking inverse"<<endl;
+    //     // Matrix ID(size,size);
+    //     // ID=ID.makeIdentity();
+    //     // (temp*H).print();
+    
+
+    //     size+=100;
+
+    // }
+  
+
+
+    // cout<<"\n\ntesting extra credit Determinant "<< D.determinant() <<endl;
+
+
+
+
+
+
+
+
+
+    // //    int arr[]= {1,0,1,2,0,2,2,4,1,2,3,4,2,4,4,4};
+    // int arr[]= {1,-2,5,2,};
+
+
+    //    int arr[]= {0,7,2,6};
+    // int arr[]= {2,3,1,-1,5,9,2,2,2};// from Dr. Anderson
+
+
+    // Matrix K(5,5);
+    // fillMatrix(K);
+    // Matrix l=K;
+    // l=l*2;
+    // l.print();
+    // K.print();
+
+    // l.strassen(l,K).print();
+
+    // (l*K).print();
+
+    Matrix J (3,3);
+    int arr8 [] = {1,2,3,1,2,3,1,2,3};
+    fillMatrix(J,arr8);
+    // J.inverse();
+
+    J.paddStrassen(J, 4).print();
+    cout<<endl;
+
+    Matrix I (3,1);
+    int arr9 [] = {1,2,3};
+    fillMatrix(I,arr9);
+
+    I.paddStrassen(I, 4).print();
+    
+
+}
+
+
+
+
+
+
+
+
+
+/****************************************/
+
+
+
+
+
+// Quickly populates array with numbers 1 -n 
+void fillMatrix(Matrix& A){
+    int data =1;
+    
+     for(int i=0 ;i<A.getRowNum() ;i++){
+        for(int j=0; j<A.getColNum() ;j++){
+            A.arr[i][j]=data++;
+        
+        }
+    }
+
+}
+
+void fillMatrixByHand(Matrix& A){
+    
+     for(int i=0 ;i<A.getRowNum() ;i++){
+        for(int j=0; j<A.getColNum() ;j++){
+            int num;
+            cin>>num;
+            A.arr[i][j]=num;
+        
+        }
+    }
+
+}
+
+void makeDiagnol(Matrix& A){
+    for(int i=0 ;i<A.getRowNum() ;i++){
+        for(int j=0; j<A.getColNum() ;j++){
+            if(i!=j){
+                A.arr[i][j]=0;
+            }
+        }
+    }
+}
+
+
+
+

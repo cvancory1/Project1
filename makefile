@@ -9,11 +9,10 @@ main.o: main.cpp matrix.cpp matrix.h
 
 model: iomodel.o
 	g++ -g -std=c++11 iomodel.o -o iomodel
-	./iomodel data >model
+	./iomodel data 
 
 iomodel.o: iomodel.cpp matrix.cpp matrix.h
 	g++ -g -std=c++11 -c iomodel.cpp
-
 
 clean:
 	rm -f *.o

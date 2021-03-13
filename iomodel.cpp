@@ -11,16 +11,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <cstdlib>
-#include<unistd.h>
+#include <unistd.h>
 #include<cmath>
 #include <string>
 #include <fstream>
-
-#include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <sys/stat.h>// defines s_iread and s_iwrite
-#include <stdio.h>
+
 
 
 #include "matrix.h"
@@ -98,9 +96,9 @@ int main(int argc , char * argv[] ){
     infile>>lines;
     cout<<lines<<endl;
 
-    for(int i=0 ;i < numSectors ;i++){
-        // cout<<sectors[i]<<" sectors"<<endl;
-    }
+    // for(int i=0 ;i < numSectors ;i++){
+    //     // cout<<sectors[i]<<" sectors"<<endl;
+    // }
 
     Matrix iomodel(numSectors,numSectors);
     for(int i=0 ;i < numSectors ;i++){
@@ -122,7 +120,7 @@ int main(int argc , char * argv[] ){
 
     Matrix demand (numSectors,1);
     infile>>lines;
-    cout<<lines<<endl;
+    // cout<<lines<<endl;
 
     for(int i=0 ;i < numSectors ;i++){
         int num;
@@ -135,21 +133,11 @@ int main(int argc , char * argv[] ){
 
     Matrix ID(numSectors,numSectors);
     ID=ID.makeIdentity();
-    Matrix x  =(ID-iomodel).inverse() * demand;
-    // cout<<"priting ID- model"<<endl;
-    // x.print();
-
-    // x= x.inverse();
-
-    // cout<<"priting inverse"<<endl;
-    // x.print();
-
-    // cout<<"priting final"<<endl;
-
-    // x= x*demand;
-    // x.print();
 
 
+
+
+    Matrix x  =(ID-iomodel).inverse() * demand; 
     cout<<"Amount of each product needed:"<<endl;
      for(int i=0 ;i < numSectors ;i++){
         int length = strlen(sectors[i].data());
@@ -159,6 +147,13 @@ int main(int argc , char * argv[] ){
         printf("%.2f units   \n",*x.arr[i]);
 
     }
+
+    (iomodel* iomodel.inverse()).print();
+
+    
+  
+
+
 
     return 0;
 }
