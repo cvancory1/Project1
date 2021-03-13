@@ -31,7 +31,7 @@ void fillMatrix(Matrix& A, int arr[]){
 
  int pos=0;
     for(int i =0;i< A.getRowNum() ;i++){
-        for(int j =0; j< A.getRowNum() ;j++){
+        for(int j =0; j< A.getColNum() ;j++){
             A.arr[i][j] = arr[pos++];
         }
 
