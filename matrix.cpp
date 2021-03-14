@@ -65,16 +65,13 @@ class Matrix{
 
         Matrix transpose();
         Matrix RecurseInverse( ); //TODO make private eventually
-        Matrix inverse( );
+        Matrix inverse();
 
-        Matrix paddStrassen( Matrix , int );
+        Matrix padStrassen( Matrix , int );
 
         Matrix paddedMatrix( Matrix ,Matrix );
         Matrix assembleMatrix( Matrix ,Matrix  ,Matrix ,Matrix );
         Matrix divideMatrix(Matrix , int , int , int , int );
-
-
-
 
 
 }; 

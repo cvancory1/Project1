@@ -6,6 +6,12 @@
    Used to calculate the dependencies for a nxn given matrix with inustries and sectors.
    Run by ./iomodel textfile
 
+   - Uses pread to record the number of sectors that the program will have without moving the "cursor". 
+   So when infile is invoked the program knows exactly how many to read in before the "--- " In additon, the matris is nxn 
+   and also based on the number of sectors, so the matrix is also constructed using this number. 
+- Program also checks to make sure the file is not empty and that two arguments are passed in 
+   
+
 */
 
 #include <iostream>
@@ -36,7 +42,6 @@ void makeSpaces(int numSpaces){
 int main(int argc , char * argv[] ){
 
     if(argc !=2){
-        // TODO: throw error
         cout<<"Must pass in 2 args."<<endl;
         return 1;
     }
@@ -69,10 +74,8 @@ int main(int argc , char * argv[] ){
 
 
         while ((numBytes = pread(fd, buff, 1,offset))>0 ){
-                // cout<<"buff="<<buff[0]<<endl;
                 
                 if(buff[0]== '\n'){
-                    // cout<<"offset="<<offset<<endl;
                     numSectors++;
                 }else if(buff[0]== '-'){
                         break;
@@ -83,7 +86,6 @@ int main(int argc , char * argv[] ){
             }
         }
 
-    // cout<<"numLines="<<numSectors<<endl;
 
     string *sectors = new string[numSectors];
 
@@ -92,41 +94,28 @@ int main(int argc , char * argv[] ){
         sectors[i]= sectorName;
 
     }
-    // cout<<"here"<<endl;
     infile>>lines;
-    cout<<lines<<endl;
 
-    // for(int i=0 ;i < numSectors ;i++){
-    //     // cout<<sectors[i]<<" sectors"<<endl;
-    // }
 
     Matrix iomodel(numSectors,numSectors);
     for(int i=0 ;i < numSectors ;i++){
             for(int j=0 ;j < numSectors ;j++){
                 double num;
                 infile>>num;
-            //  cout<<"num="<<num<<endl;
-
                 iomodel.arr[i][j]= num;
-            //  cout<<"iomodel.arr[i][j]="<<iomodel.arr[i][j]<<endl;
 
                 
         
         }
     }
-    // cout<<"\nPrinting matrix"<<endl;
-    // iomodel.print();
-
 
     Matrix demand (numSectors,1);
     infile>>lines;
-    // cout<<lines<<endl;
 
     for(int i=0 ;i < numSectors ;i++){
         int num;
         infile>>num;
         demand.arr[i][0]=num;
-        // cout<<demand.arr[i][0]<<"dependencies"<<endl;
     }
 
     infile.close();
@@ -147,12 +136,6 @@ int main(int argc , char * argv[] ){
         printf("%.2f units   \n",*x.arr[i]);
 
     }
-
-    (iomodel* iomodel.inverse()).print();
-
-    
-  
-
 
 
     return 0;
